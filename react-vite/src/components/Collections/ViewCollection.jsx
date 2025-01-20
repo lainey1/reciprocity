@@ -6,6 +6,7 @@ import no_image_available from "../../../public/no_image_available.png";
 import { fetchCollectionById } from "../../redux/collections";
 import DeleteRecipeModal from "../ManageRecipes/DeleteRecipeModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import EditRecipeCollection from "../AllRecipes/EditRecipeCollection";
 
 const ViewCollection = () => {
   const dispatch = useDispatch();
@@ -72,7 +73,7 @@ const ViewCollection = () => {
               </Link>
             </div>
             <div className="recipe-action-buttons">
-              {currentUser?.id === recipe.owner_id && (
+              {currentUser?.id === recipe.owner_id ? (
                 <>
                   <OpenModalButton
                     buttonText="Delete"
@@ -91,6 +92,20 @@ const ViewCollection = () => {
                     <FaEdit /> Edit
                   </button>
                 </>
+              ) : (
+                <div className="save-recipe-container">
+                  <OpenModalButton
+                    buttonText="Edit"
+                    id="edit-button"
+                    modalComponent={
+                      <EditRecipeCollection
+                        recipeId={recipe.id}
+                        recipeName={recipe.name}
+                        recipeImage={recipe.preview_image}
+                      />
+                    }
+                  />
+                </div>
               )}
             </div>
           </div>

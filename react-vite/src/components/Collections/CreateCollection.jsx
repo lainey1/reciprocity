@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
+import { useModal } from "../../context/Modal";
+
 import { createNewCollection } from "../../../src/redux/collections";
-import { useNavigate } from "react-router-dom";
 
 const CreateCollection = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const currentUser = useSelector((state) => state.session.user);
+  const { closeModal } = useModal();
 
   const [newCollectionName, setNewCollectionName] = useState("");
   const [newCollectionDescription, setNewCollectionDescription] = useState("");
@@ -20,7 +20,7 @@ const CreateCollection = () => {
     dispatch(createNewCollection(payload));
     setNewCollectionName("");
     setNewCollectionDescription("");
-    navigate(`/user/${currentUser.id}?section=collections`);
+    closeModal();
   };
 
   return (
