@@ -24,7 +24,7 @@ const CreateCollection = () => {
   };
 
   return (
-    <div className="form-page-container">
+    <div>
       {/* Create New Collection */}
       <div className="create-collection">
         <h2>Create New Collection</h2>

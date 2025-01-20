@@ -1,9 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { thunkFetchRecipes } from "../../redux/recipes";
 import no_image_available from "../../../public/no_image_available.png";
 import { addRecipe, fetchCollectionsByOwner } from "../../redux/collections";
+import { thunkFetchRecipes } from "../../redux/recipes";
+
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import CreateCollection from "../Collections/CreateCollection";
 
 import "./AllRecipes.css";
 
@@ -89,6 +92,7 @@ function AllRecipes() {
     // Save to each selected collection
     collectionIds.forEach((collectionId) => {
       dispatch(addRecipe(collectionId, recipeId));
+      dispatch(fetchCollectionsByOwner(userId));
     });
   };
 
@@ -146,6 +150,16 @@ function AllRecipes() {
                   </div>
                 ))}
               </div>
+              <OpenModalButton
+                buttonText="Create Collection"
+                id="create-collection"
+                modalComponent={
+                  <CreateCollection
+                    collection_id={userCollections.id}
+                    collection_name={userCollections.name}
+                  />
+                }
+              />
               <button onClick={() => handleSaveRecipe(recipe.id)}>
                 Save to Collection
               </button>

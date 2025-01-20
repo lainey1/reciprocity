@@ -23,12 +23,16 @@ class Collection(db.Model):
 
 
     def to_dict(self):
-        return {
+        collection_dict = {
             'id': self.id,
             'name': self.name,
             'user_id': self.user_id,
             'description': self.description,
-
             'created_at': self.created_at.isoformat(),
-            'updated_at': self.updated_at.isoformat()
+            'updated_at': self.updated_at.isoformat(),
         }
+
+        # Include associated recipes
+        collection_dict['recipes'] = [recipe.recipe.to_dict() for recipe in self.recipes]
+
+        return collection_dict

@@ -320,7 +320,6 @@ def delete_recipe(id):
 
     """
     recipe = Recipe.query.get(id)
-    print("RECIPE =======>", recipe)
 
     if not recipe:
         return {'error': f'Recipe with ID {id} not found.'}, 404

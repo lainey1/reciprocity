@@ -5,6 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import no_image_available from "../../../public/no_image_available.png";
 
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import CreateCollection from "./CreateCollection";
 
 import DeleteCollectionModal from "./DeleteCollectionModal";
 
@@ -33,12 +34,18 @@ const ManageCollections = () => {
     <div className="page-container">
       {/* Create New Collection */}
       <div id="manage-collection-buttons">
-        <button
-          onClick={() => navigate("/collections/new")}
-          className="add-button"
-        >
-          Create Collection
-        </button>
+        <div id="manage-collection-buttons">
+          <OpenModalButton
+            buttonText="Create Collection"
+            className="add-button"
+            modalComponent={
+              <CreateCollection
+                collection_id={userCollections.id}
+                collection_name={userCollections.name}
+              />
+            }
+          />
+        </div>
       </div>
 
       {/* List of Collections */}

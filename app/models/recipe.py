@@ -83,5 +83,7 @@ class Recipe(db.Model):
             # Include recipe images
             'recipe_images': [image.to_dict() for image in self.recipe_images]
 
+
+
         }
         return recipe_dict
