@@ -25,13 +25,14 @@
 
 .recipe-description {
   display: -webkit-box; /* Enables text clamping */
-  -webkit-line-clamp: 3; /* Limit to 3 lines of text */
+  -webkit-line-clamp: 4; /* Limit to 3 lines of text */
   -webkit-box-orient: vertical; /* Required for clamping */
   overflow: hidden; /* Hides overflow text */
   text-overflow: ellipsis; /* Adds "..." if text exceeds limit */
-  font-size: 1rem;
   color: #555;
   margin-top: 10px;
+  font-size: 1rem;
+  text-align: left;
   line-height: 1.4; /* Controls line spacing */
   word-wrap: break-word; /* Wraps long words */
 }

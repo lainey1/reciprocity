@@ -15,21 +15,36 @@
 }
 
 .collections-grid {
-  column-count: 4;
+  column-count: 6;
   column-gap: 20px;
   padding: 20px;
   margin-top: 25px;
 }
 
 .collection-tile {
+  position: relative;
+  overflow: hidden;
   break-inside: avoid; /* Prevent tiles from breaking between columns */
   background-color: #f9f9f9;
+  border: 1px solid #ddd;
   border-radius: 8px;
   padding: 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
-  transition: transform 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out;
   margin-bottom: 20px;
+}
+
+.collection-tile:hover .collection-action-buttons {
+  opacity: 1;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 500;
+}
+
+.collection-tile-name {
+  font-weight: 500;
+  font-size: 1.25em;
+  text-align: left;
 }
 
 .collection-image-container {
@@ -42,6 +57,7 @@
 }
 
 .collection-image {
+  display: block;
   width: 100%;
   height: auto;
   object-fit: cover;
@@ -49,24 +65,16 @@
 
 .collection-action-buttons {
   position: absolute;
-  top: 25px; /* Adjusts the position from the top of the image */
-  right: 25px; /* Adjusts the position from the right of the image */
+  top: 25px;
+  right: 25px;
   display: flex;
-  gap: 8px; /* Adds space between buttons */
-  opacity: 0; /* Hidden by default */
-  transition: opacity 0.3s ease-in-out;
-  z-index: 2; /* Ensures buttons are above the image */
-  /* display: flex;
-  justify-content: center;
-  justify-content: space-between;
-  justify-content: sp;
+  gap: 8px;
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
-  height: 40px; */
 }
 
 .collection-tile:hover .collection-action-buttons {
-  opacity: 1; /* Makes buttons visible on hover */
+  opacity: 1;
 }
 
 .collection-action-buttons > button {
@@ -90,42 +98,12 @@
 
 #delete-button {
   color: white;
+  z-index: 2;
 }
 
-.collection-tile:hover {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.collection-tile:hover .collection-action-buttons {
-  opacity: 1;
-}
-
-.collection-image-container {
-  position: relative;
-}
-
-.collection-image {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.collection-tile-name {
-  font-weight: 500;
-  font-size: 1.25em;
-  text-align: left;
-}
-
-.collection-tile {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-.collection-tile:hover {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+textarea {
+  height: 150px;
+  width: 300px;
 }
 
 /* Media Query for Mobile Devices */

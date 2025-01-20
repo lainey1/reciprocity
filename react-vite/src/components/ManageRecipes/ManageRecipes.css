@@ -14,6 +14,12 @@
   background-color: rgb(70, 87, 117, 0.7);
 }
 
+.recipes-grid {
+  column-count: 5;
+  column-gap: 20px;
+  padding: 20px;
+}
+
 .recipe-tile {
   position: relative;
 }
@@ -29,6 +35,9 @@
   transform: scale(1.05);
 }
 
+.recipe-description {
+  font-size: 1rem;
+}
 .hover-buttons {
   display: none;
   position: absolute;
@@ -75,4 +84,37 @@
 .edit-button:hover,
 .share-button:hover {
   background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Tablet size (portrait or medium screens) */
+@media (max-width: 1300px) {
+  .recipes-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet size (portrait or medium screens) */
+@media (max-width: 1024px) {
+  .recipes-grid {
+    column-count: 4;
+  }
+}
+
+/* Mobile size */
+@media (max-width: 768px) {
+  .recipes-grid {
+    column-count: 3;
+    column-gap: 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipes-grid {
+    column-count: 1;
+  }
+
+  .recipe-tile {
+    padding: 10px;
+  }
 }

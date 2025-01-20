@@ -1,11 +1,12 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
 import no_image_available from "../../../public/no_image_available.png";
 
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import CreateCollection from "./CreateCollection";
+import EditCollection from "./EditCollection";
 
 import DeleteCollectionModal from "./DeleteCollectionModal";
 
@@ -18,7 +19,6 @@ import "./CollectionTiles.css";
 
 const ManageCollections = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const userId = useSelector((state) => state.session.user.id);
   const userCollections = useSelector(
@@ -31,7 +31,7 @@ const ManageCollections = () => {
   }, [dispatch, userId]);
 
   return (
-    <div className="page-container">
+    <div>
       {/* Create New Collection */}
       <div id="manage-collection-buttons">
         <div id="manage-collection-buttons">
@@ -87,15 +87,17 @@ const ManageCollections = () => {
                     />
                   }
                 />
-                <button
-                  className="edit-button"
-                  onClick={(e) => {
-                    e.stopPropagation(); // Prevent the parent tile from triggering navigation
-                    navigate(`/collections/${collection.id}/edit`);
-                  }}
-                >
-                  <FaEdit /> Edit
-                </button>
+                <OpenModalButton
+                  buttonText={
+                    <>
+                      <FaEdit /> Edit
+                    </>
+                  }
+                  id="edit-button"
+                  modalComponent={
+                    <EditCollection collection_id={collection.id} />
+                  }
+                />
               </div>
             </div>
             <div>

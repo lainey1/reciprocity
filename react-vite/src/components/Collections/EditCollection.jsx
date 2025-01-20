@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { useModal } from "../../context/Modal";
 import { editCollection, fetchCollectionById } from "../../redux/collections";
 
-const EditCollection = () => {
+const EditCollection = ({ collection_id }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { collection_id } = useParams();
+  const { closeModal } = useModal();
 
   // Selector to fetch the specific collection by ID
   const currentCollection = useSelector(
@@ -54,6 +56,7 @@ const EditCollection = () => {
 
       await dispatch(editCollection(currentCollection.id, payload));
       navigate(`/collections/${collection_id}`);
+      closeModal();
     } catch (error) {
       console.error("Failed to update collection:", error);
       setErrors({ form: "Failed to update the collection. Please try again." });
@@ -61,7 +64,7 @@ const EditCollection = () => {
   };
 
   return (
-    <div className="form-page-container">
+    <div>
       <div className="form-header">
         <h2>Edit Collection</h2>
       </div>
