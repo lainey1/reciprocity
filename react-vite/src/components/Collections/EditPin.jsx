@@ -7,13 +7,14 @@ import { useModal } from "../../context/Modal";
 
 import {
   addRecipe,
+  removeRecipe,
   fetchCollections,
   fetchCollectionsByOwner,
 } from "../../redux/collections";
 
 import no_image_available from "../../../public/no_image_available.png";
 
-function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
+function EditPin({ recipeId, recipeName, recipeImage }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
@@ -21,6 +22,9 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
     (state) => state.collections?.ownerCollections
   );
   const userId = useSelector((state) => state.session.user.id);
+  const currentCollection = useSelector(
+    (state) => state.collections?.currentCollection
+  );
 
   const [selectedCollection, setSelectedCollection] = useState(null);
   const [warning, setWarning] = useState(null); // State for warning message
@@ -59,7 +63,6 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
       return;
     }
 
-    // Check if recipe already exists in the selected collection
     const collection = userCollections.find(
       (coll) => coll.id === selectedCollection
     );
@@ -67,21 +70,36 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
 
     if (recipeExists) {
       setWarning("This recipe is already in the selected collection.");
-      return; // Don't save if recipe already exists
+      return;
     }
 
-    dispatch(addRecipe(selectedCollection, recipeId));
+    await dispatch(addRecipe(selectedCollection, recipeId));
     dispatch(fetchCollectionsByOwner(userId));
 
-    // Find the collection by id and get the name
-    const collectionName = userCollections.find(
-      (coll) => coll.id === selectedCollection
-    )?.name;
+    const collectionName = collection?.name;
 
     if (collectionName) {
       setSuccessMessage(`Added to "${collectionName}" collection!`);
     } else {
       setSuccessMessage("Recipe saved successfully!");
+    }
+
+    setTimeout(() => {
+      setSuccessMessage(null);
+      closeModal();
+    }, 3000);
+  };
+
+  const handleRemoveRecipe = async () => {
+    await dispatch(removeRecipe(currentCollection.id, recipeId));
+    dispatch(fetchCollectionsByOwner(userId));
+
+    const collectionName = currentCollection.name;
+
+    if (collectionName) {
+      setSuccessMessage(`Removed from "${collectionName}" collection!`);
+    } else {
+      setSuccessMessage("Recipe removed successfully!");
     }
 
     setTimeout(() => {
@@ -123,8 +141,7 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
             </option>
           ))}
         </select>
-        {warning && <p className="warning">{warning}</p>}{" "}
-        {/* Display warning */}
+        {warning && <p className="warning">{warning}</p>}
       </div>
       <OpenModalButton
         buttonText="Create Collection"
@@ -136,9 +153,9 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
           />
         }
       />
-      <button onClick={handleSaveRecipe}>Save to Collection</button>
+      <button onClick={handleSaveRecipe}>Add to Collection</button>
+      <button onClick={handleRemoveRecipe}>Remove From Collection</button>
 
-      {/* Success message popup */}
       {successMessage && (
         <div className="success-popup">
           <p>{successMessage}</p>
@@ -148,4 +165,4 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
   );
 }
 
-export default EditRecipeCollection;
+export default EditPin;

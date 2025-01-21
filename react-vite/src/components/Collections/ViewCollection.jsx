@@ -6,7 +6,7 @@ import no_image_available from "../../../public/no_image_available.png";
 import { fetchCollectionById } from "../../redux/collections";
 import DeleteRecipeModal from "../ManageRecipes/DeleteRecipeModal";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import EditRecipeCollection from "../AllRecipes/EditRecipeCollection";
+import EditPin from "./EditPin";
 
 const ViewCollection = () => {
   const dispatch = useDispatch();
@@ -45,24 +45,6 @@ const ViewCollection = () => {
         ) : (
           collectionRecipes.map((recipe) => (
             <div key={recipe.id} className="recipe-tile">
-              <div
-                className="recipe-highlight"
-                style={{
-                  paddingTop: "0px",
-                }}
-              >
-                <p className="recipe-description">
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "1.25em",
-                      padding: "0px",
-                    }}
-                  >
-                    {recipe.name}
-                  </span>
-                </p>
-              </div>
               <div className="image-tile">
                 <Link to={`/recipes/${recipe.id}`} className="recipe-link">
                   <div className="recipe-image-container">
@@ -83,7 +65,7 @@ const ViewCollection = () => {
               </div>
               <div className="recipe-action-buttons">
                 {currentUser?.id === recipe.owner_id ? (
-                  <>
+                  <div className="recipe-action-buttons">
                     <OpenModalButton
                       buttonText="Delete"
                       id="delete-button"
@@ -100,14 +82,14 @@ const ViewCollection = () => {
                     >
                       <FaEdit /> Edit
                     </button>
-                  </>
+                  </div>
                 ) : (
                   <div className="save-recipe-container">
                     <OpenModalButton
-                      buttonText="Edit"
+                      buttonText="Edit Pin"
                       id="edit-button"
                       modalComponent={
-                        <EditRecipeCollection
+                        <EditPin
                           recipeId={recipe.id}
                           recipeName={recipe.name}
                           recipeImage={recipe.preview_image}
@@ -116,6 +98,9 @@ const ViewCollection = () => {
                     />
                   </div>
                 )}
+              </div>
+              <div>
+                <p className="recipe-tile-name">{recipe.name}</p>
               </div>
             </div>
           ))

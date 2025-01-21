@@ -6,7 +6,7 @@ import { thunkFetchRecipes } from "../../redux/recipes";
 
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
-import SaveRecipeToCollection from "./EditRecipeCollection";
+import SaveRecipeToCollection from "../Collections/EditRecipeCollection";
 
 import "./AllRecipes.css";
 
