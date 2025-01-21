@@ -1,15 +1,16 @@
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkDeleteRecipe } from "../../redux/recipes";
+import { fetchCollectionsByOwner } from "../../redux/collections";
 
-function DeleteRecipeModal({ recipe_id, recipe_name }) {
+function DeleteRecipeModal({ recipe_id, recipe_name, owner_id }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
-  const handleDelete = async () => {
+  const handleDelete = () => {
     try {
-      await dispatch(thunkDeleteRecipe(recipe_id)); // Ensure this returns a promise
-      window.location.reload(); // Force reload after deletion
+      dispatch(thunkDeleteRecipe(recipe_id)); // Ensure this returns a promise
+      dispatch(fetchCollectionsByOwner(owner_id));
       closeModal();
     } catch (err) {
       console.error("Error deleting recipe:", err);
@@ -18,13 +19,15 @@ function DeleteRecipeModal({ recipe_id, recipe_name }) {
 
   return (
     <div className="page-form-container">
-      <h3>Confirm Deletion</h3>
-      <p>
-        Are you sure you want to delete this recipe:{" "}
-        <span style={{ fontWeight: "bold" }}>{recipe_name}</span>?
-      </p>
-      <button onClick={handleDelete}>Delete</button>
-      <button onClick={closeModal}>Cancel</button>
+      <form>
+        <h2>Confirm Deletion</h2>
+        <p>
+          Are you sure you want to delete this recipe:{" "}
+          <span style={{ fontWeight: "bold" }}>{recipe_name}</span>?
+        </p>
+        <button onClick={handleDelete}>Delete</button>
+        <button onClick={closeModal}>Cancel</button>
+      </form>
     </div>
   );
 }

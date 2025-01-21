@@ -1,20 +1,19 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaMinusCircle } from "react-icons/fa";
 import no_image_available from "../../../public/no_image_available.png";
 
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import CreateCollection from "./CreateCollection";
 import EditCollection from "./EditCollection";
-
 import DeleteCollectionModal from "./DeleteCollectionModal";
 
 import {
   fetchCollections,
   fetchCollectionsByOwner,
-  // deleteCollectionById,
 } from "../../../src/redux/collections";
+
 import "./CollectionTiles.css";
 
 const ManageCollections = () => {
@@ -31,17 +30,22 @@ const ManageCollections = () => {
   }, [dispatch, userId]);
 
   return (
-    <div>
+    <div className="page-container">
       {/* Create New Collection */}
       <div id="manage-collection-buttons">
         <div id="manage-collection-buttons">
           <OpenModalButton
-            buttonText="Create Collection"
+            buttonText={
+              <span>
+                <FaEdit /> Create Collection
+              </span>
+            }
             className="add-button"
             modalComponent={
               <CreateCollection
                 collection_id={userCollections.id}
                 collection_name={userCollections.name}
+                owner_id={userId}
               />
             }
           />
@@ -78,7 +82,11 @@ const ManageCollections = () => {
               {/* Action Buttons */}
               <div className="collection-action-buttons">
                 <OpenModalButton
-                  buttonText="Delete"
+                  buttonText={
+                    <>
+                      <FaMinusCircle /> Delete{" "}
+                    </>
+                  }
                   id="delete-button"
                   modalComponent={
                     <DeleteCollectionModal

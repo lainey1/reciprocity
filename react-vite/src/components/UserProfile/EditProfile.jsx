@@ -1,15 +1,16 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteProfile from "./DeleteProfile.jsx";
+import { useModal } from "../../context/Modal.jsx";
+
 import { thunkUpdateProfile } from "../../redux/session";
 
 import "./EditProfile.css";
 
 function EditProfile() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const { closeModal } = useModal();
   const currentUser = useSelector((state) => state.session.user);
 
   const [formData, setFormData] = useState({
@@ -55,7 +56,7 @@ function EditProfile() {
     if (res.errors) {
       setErrors(res.errors);
     } else {
-      navigate(`/user/${currentUser.id}`);
+      closeModal(); // Directly call closeModal() here
     }
   };
 

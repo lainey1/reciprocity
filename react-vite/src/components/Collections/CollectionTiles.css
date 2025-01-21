@@ -3,22 +3,10 @@
   justify-content: flex-start;
 }
 
-.add-button {
-  border-radius: 20px;
-  font-size: 1.15em;
-  background-color: #465775;
-  padding: 15px;
-}
-
-.add-button:hover {
-  background-color: rgb(70, 87, 117, 0.7);
-}
-
 .collections-grid {
-  padding: 20px;
   margin-top: 25px;
   column-count: 5;
-  column-gap: 20px;
+  column-gap: 15px;
 }
 
 .collection-tile {
@@ -110,66 +98,30 @@ textarea {
   width: 300px;
 }
 
-/* Media Query for Mobile Devices */
-@media (max-width: 768px) {
-  .page-form-container {
-    margin: 0 5%;
-  }
-  .collection-action-buttons {
-    display: flex;
-    justify-content: space-evenly;
-    opacity: 1; /* Always show buttons on mobile */
-  }
-
-  .collection-action-buttons > button {
-    font-size: 1em; /* Adjust font size for mobile */
-    padding: 8px; /* Adjust padding for mobile */
-  }
-
-  #manage-collection-buttons {
-    flex-direction: column; /* Stack the buttons vertically */
-    gap: 10px; /* Add space between buttons */
-  }
-
-  .add-button {
-    font-size: 1.1em;
-    padding: 12px;
-  }
-}
-
-/* Tablet size (portrait or medium screens) */
-@media (max-width: 1300px) {
-  .collections-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
 /* Tablet size (portrait or medium screens) */
 @media (max-width: 1024px) {
   .collections-grid {
     column-count: 3;
-    column-gap: 20px;
-    padding: 20px;
+    column-gap: 15px;
   }
 }
 
-/* Mobile size */
+/* Media Query for Mobile Devices */
 @media (max-width: 768px) {
   .collections-grid {
     column-count: 2;
-    column-gap: 20px;
-    padding: 20px;
+    column-gap: 15px;
+  }
+
+  #manage-collection-buttons {
+    display: flex;
+    justify-content: center;
   }
 }
 
 @media (max-width: 480px) {
   .collections-grid {
     column-count: 1;
-    column-gap: 20px;
-    padding: 20px;
-  }
-
-  .collection-tile {
-    padding: 10px;
+    column-gap: 15px;
   }
 }

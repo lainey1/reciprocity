@@ -21,8 +21,8 @@ function AllRecipes() {
   }, [dispatch]);
 
   return (
-    <div id="all-recipes-page-container">
-      <div className="all-recipes-grid">
+    <div className="page-container">
+      <div className="recipes-grid">
         {recipesArr.map((recipe) => (
           <div key={recipe.id} className="recipe-tile">
             <Link to={`${recipe.id}`} className="all-recipes-link">
@@ -49,7 +49,7 @@ function AllRecipes() {
               </div>
             </Link>
             {/* Save button and collection selection */}
-            <div className="save-recipe-container">
+            <div className="recipe-action-buttons">
               <OpenModalButton
                 buttonText="Save"
                 id="save-collection-button"

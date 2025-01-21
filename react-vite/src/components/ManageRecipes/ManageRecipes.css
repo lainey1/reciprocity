@@ -2,3 +2,119 @@
   display: flex;
   justify-content: center;
 }
+
+.add-button {
+  border-radius: 20px;
+  font-size: 1.15em;
+  background-color: #465775;
+  padding: 10px;
+}
+
+.add-button:hover {
+  background-color: rgb(70, 87, 117, 0.7);
+}
+
+.recipes-grid {
+  column-count: 5;
+  column-gap: 20px;
+  padding: 20px;
+}
+
+.recipe-tile {
+  position: relative;
+}
+
+.recipe-image-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.recipe-image-container:hover {
+  transform: scale(1.05);
+}
+
+.recipe-description {
+  font-size: 1rem;
+}
+.hover-buttons {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+}
+
+.recipe-image-container:hover .hover-buttons {
+  display: block;
+}
+
+.save-button {
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.action-buttons {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
+
+.open-button,
+.edit-button,
+.share-button {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  padding: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 5px;
+}
+
+.open-button:hover,
+.edit-button:hover,
+.share-button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Tablet size (portrait or medium screens) */
+@media (max-width: 1300px) {
+  .recipes-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet size (portrait or medium screens) */
+@media (max-width: 1024px) {
+  .recipes-grid {
+    column-count: 4;
+  }
+}
+
+/* Mobile size */
+@media (max-width: 768px) {
+  .recipes-grid {
+    column-count: 3;
+    column-gap: 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .recipes-grid {
+    column-count: 1;
+  }
+
+  .recipe-tile {
+    padding: 10px;
+  }
+}

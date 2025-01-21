@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+
 import logo from "../../../public/reciprocity_logo.png";
 import { MdOutlineAddAPhoto } from "react-icons/md";
+import noImage from "../../../public/no_image_available.png";
+
 import "./ReadRecipe.css";
 
 const RecipeDetails = () => {
   const { id } = useParams();
+
+  const currentUser = useSelector((state) => state.session?.user);
   const [recipe, setRecipe] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -73,11 +79,18 @@ const RecipeDetails = () => {
                         />
                       ) : (
                         <div className="placeholder">
-                          <MdOutlineAddAPhoto className="add-photo-icon" />
-                          <p className="add-photo-text">Add Photo</p>
+                          {currentUser.id == recipe.owner_id ? (
+                            <>
+                              <MdOutlineAddAPhoto className="add-photo-icon" />
+                              <p className="add-photo-text">Add Photo</p>
+                            </>
+                          ) : (
+                            <img src={noImage} alt="no image available" />
+                          )}
                         </div>
                       )}
                     </div>
+
                     <button
                       className="next-button"
                       onClick={handleNextImage}
@@ -92,7 +105,9 @@ const RecipeDetails = () => {
                   <p>
                     <em>Created by: {recipe.owner}</em>
                   </p>
+                  <br />
                   <hr />
+                  <br />
                   <p>
                     <strong>Cuisine:</strong> {recipe.cuisine}
                   </p>

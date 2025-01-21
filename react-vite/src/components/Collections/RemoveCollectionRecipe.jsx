@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { deleteCollectionById } from "../../redux/collections";
 
-function DeleteCollectionModal({ collection_id, collection_name }) {
+function RemoveRecipeCollection({ collection_id, collection_name }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
@@ -18,8 +18,8 @@ function DeleteCollectionModal({ collection_id, collection_name }) {
 
   return (
     <div className="page-form-container">
+      <h2>Confirm Deletion</h2>
       <form>
-        <h2>Confirm Deletion</h2>
         <p>
           Are you sure you want to delete this collection:{" "}
           <span style={{ fontWeight: "bold" }}>{collection_name}</span>?
@@ -31,4 +31,4 @@ function DeleteCollectionModal({ collection_id, collection_name }) {
   );
 }
 
-export default DeleteCollectionModal;
+export default RemoveRecipeCollection;
