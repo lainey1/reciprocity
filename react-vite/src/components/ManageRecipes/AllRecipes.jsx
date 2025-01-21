@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { thunkFetchRecipes } from "../../redux/recipes";
 import no_image_available from "../../../public/no_image_available.png";
-import "./AllRecipes.css";
 
 function AllRecipes() {
   const dispatch = useDispatch();

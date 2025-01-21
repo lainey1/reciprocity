@@ -8,7 +8,8 @@ function DeleteRecipeModal({ recipe_id, recipe_name }) {
 
   const handleDelete = async () => {
     try {
-      dispatch(thunkDeleteRecipe(recipe_id));
+      await dispatch(thunkDeleteRecipe(recipe_id)); // Ensure this returns a promise
+      window.location.reload(); // Force reload after deletion
       closeModal();
     } catch (err) {
       console.error("Error deleting recipe:", err);
@@ -19,7 +20,6 @@ function DeleteRecipeModal({ recipe_id, recipe_name }) {
     <div className="page-form-container">
       <h3>Confirm Deletion</h3>
       <p>
-        {" "}
         Are you sure you want to delete this recipe:{" "}
         <span style={{ fontWeight: "bold" }}>{recipe_name}</span>?
       </p>

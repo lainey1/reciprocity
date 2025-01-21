@@ -6,13 +6,16 @@ import {
   LoginFormModal,
   SignupFormModal,
 } from "../components/AuthenticationForms";
-import AllRecipes from "../components/ManageRecipes/AllRecipes";
+import AllRecipes from "../components/AllRecipes/AllRecipes.jsx";
 import ReadRecipe from "../components/ManageRecipes/ReadRecipe";
 import ManageRecipes from "../components/ManageRecipes/ManageRecipes";
 import CreateRecipe from "../components/ManageRecipes/CreateRecipe";
 import UpdateRecipe from "../components/ManageRecipes/UpdateRecipe";
 import UserProfile from "../components/UserProfile/UserProfile";
 import EditProfile from "../components/UserProfile/EditProfile";
+import CreateCollection from "../components/Collections/CreateCollection";
+import EditCollection from "../components/Collections/EditCollection";
+import ViewCollection from "../components/Collections/ViewCollection.jsx";
 
 export const router = createBrowserRouter([
   {
@@ -62,10 +65,18 @@ export const router = createBrowserRouter([
         path: "/user/:user_id/edit",
         element: <EditProfile />,
       },
-      // {
-      //   path: "user/:userId/delete",
-      //   element: <DeleteProfile />,
-      // },
+      {
+        path: "/collections/new",
+        element: <CreateCollection />,
+      },
+      {
+        path: "/collections/:collection_id/edit",
+        element: <EditCollection />,
+      },
+      {
+        path: "/collections/:collection_id/",
+        element: <ViewCollection />,
+      },
     ],
   },
 ]);

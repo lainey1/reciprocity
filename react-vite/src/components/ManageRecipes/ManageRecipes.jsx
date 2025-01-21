@@ -20,7 +20,7 @@ function ManageRecipes() {
   const recipesArr = Object.values(recipes);
 
   const userRecipes = recipesArr?.filter(
-    (recipe) => recipe.owner_id == currentUser.id
+    (recipe) => recipe.owner_id === currentUser?.id
   );
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -35,47 +35,31 @@ function ManageRecipes() {
     setRecipeToDelete(null);
   };
 
-  if (!currentUser) return <div>You must be logged in to manage recipes.</div>;
+  if (!currentUser) {
+    return <div>You must be logged in to manage recipes.</div>;
+  }
 
   return (
-    <div className="page-container">
+    <div>
       <div id="manage-recipe-buttons">
-        <button
-          onClick={() => {
-            navigate("/recipes/new");
-          }}
-          className="add-button"
-        >
+        <button onClick={() => navigate("/recipes/new")} className="add-button">
           Create Recipe
         </button>
       </div>
 
-      <div className="recipes-grid">
-        {userRecipes?.map((recipe) => {
-          return (
+      {/* Conditional rendering for empty recipes */}
+      {userRecipes.length === 0 ? (
+        <div className="recipe-tile">
+          <p>You haven&apos;t created any recipes yet...</p>
+        </div>
+      ) : (
+        <div className="recipes-grid">
+          {userRecipes.map((recipe) => (
             <div key={recipe.id} className="recipe-tile">
-              <div
-                className="recipe-highlight"
-                style={{
-                  paddingTop: "0px",
-                }}
-              >
-                <p className="recipe-description">
-                  <span
-                    style={{
-                      fontWeight: "bold",
-                      fontSize: "1.25em",
-                      padding: "0px",
-                    }}
-                  >
-                    {recipe.name}
-                  </span>
-                </p>
-              </div>
               <div className="image-tile">
                 <Link to={`/recipes/${recipe.id}`} className="recipe-link">
                   <div className="recipe-image-container">
-                    {recipe?.preview_image ? (
+                    {recipe.preview_image ? (
                       <img
                         src={recipe.preview_image}
                         className="recipe-image"
@@ -90,8 +74,9 @@ function ManageRecipes() {
                   </div>
                 </Link>
               </div>
+
+              {/* Action Buttons */}
               <div className="recipe-action-buttons">
-                {/* Open Delete Modal Button */}
                 <OpenModalButton
                   buttonText="Delete"
                   id="delete-button"
@@ -110,10 +95,14 @@ function ManageRecipes() {
                   <FaEdit /> Edit
                 </button>
               </div>
+
+              <div>
+                <p className="recipe-tile-name">{recipe.name}</p>
+              </div>
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
 
       {/* Conditional Modal Rendering */}
       {isModalOpen && (

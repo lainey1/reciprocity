@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
 
 import ManageRecipes from "../ManageRecipes/ManageRecipes";
+import ManageCollections from "../Collections/ManageCollections";
 
 import { thunkAuthenticate } from "../../redux/session";
 
@@ -60,32 +61,40 @@ function UserProfile() {
 
       <nav className="menu">
         <button
+          className={activeSection === "collections" ? "active" : ""}
+          onClick={() =>
+            navigate(`/user/${currentUser.id}?section=collections`)
+          }
+        >
+          Collections
+        </button>
+
+        <button
           className={activeSection === "created_recipes" ? "active" : ""}
           onClick={() =>
             navigate(`/user/${currentUser.id}?section=created_recipes`)
           }
         >
-          Created Recipes
+          Created
         </button>
-        <button
-          className={activeSection === "created" ? "active" : ""}
-          onClick={() => navigate(`/user/${currentUser.id}?section=created`)}
-        >
-          Collections
-        </button>
+
         <button
           className={activeSection === "saved_recipes" ? "active" : ""}
           onClick={() =>
             navigate(`/user/${currentUser.id}?section=saved_recipes`)
           }
         >
-          Saved Recipes
+          Saved
         </button>
       </nav>
 
       {/* Main Content */}
       <div className="main-content">
         {activeSection === "created_recipes" && <ManageRecipes />}
+      </div>
+
+      <div className="main-content">
+        {activeSection === "collections" && <ManageCollections />}
       </div>
     </div>
   );
