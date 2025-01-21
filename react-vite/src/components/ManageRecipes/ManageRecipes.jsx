@@ -9,8 +9,6 @@ import no_image_available from "../../../public/no_image_available.png";
 
 import { thunkFetchRecipes } from "../../redux/recipes";
 
-import "./RecipeTiles.css";
-
 function ManageRecipes() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -49,34 +47,25 @@ function ManageRecipes() {
 
       {/* Conditional rendering for empty recipes */}
       {userRecipes.length === 0 ? (
-        <div className="recipe-tile">
+        <div className="image-tile">
           <p>You haven&apos;t created any recipes yet...</p>
         </div>
       ) : (
-        <div className="recipes-grid">
+        <div className="images-grid">
           {userRecipes.map((recipe) => (
-            <div key={recipe.id} className="recipe-tile">
-              <div className="image-tile">
-                <Link to={`/recipes/${recipe.id}`} className="recipe-link">
-                  <div className="recipe-image-container">
-                    {recipe.preview_image ? (
-                      <img
-                        src={recipe.preview_image}
-                        className="recipe-image"
-                      />
-                    ) : (
-                      <img
-                        src={no_image_available}
-                        alt="no image available"
-                        className="recipe-image"
-                      />
-                    )}
-                  </div>
-                </Link>
-              </div>
+            <div key={recipe.id} className="image-tile">
+              <Link to={`/recipes/${recipe.id}`} className="recipe-link">
+                <div className="image-tile-container">
+                  {recipe.preview_image ? (
+                    <img src={recipe.preview_image} />
+                  ) : (
+                    <img src={no_image_available} alt="no image available" />
+                  )}
+                </div>
+              </Link>
 
               {/* Action Buttons */}
-              <div className="recipe-action-buttons">
+              <div className="image-tile-action-buttons">
                 <OpenModalButton
                   buttonText={
                     <>

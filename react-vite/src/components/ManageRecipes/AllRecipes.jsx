@@ -6,9 +6,8 @@ import { thunkFetchRecipes } from "../../redux/recipes";
 
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
-import SaveRecipeToCollection from "../Collections/EditRecipeCollection";
-
 import "./AllRecipes.css";
+import EditRecipeCollection from "../Collections/EditRecipeCollection";
 
 function AllRecipes() {
   const dispatch = useDispatch();
@@ -21,24 +20,19 @@ function AllRecipes() {
   }, [dispatch]);
 
   return (
-    <div className="page-container">
-      <div className="recipes-grid">
+    <div id="all-recipes-page-container">
+      <div className="all-recipes-grid">
         {recipesArr.map((recipe) => (
-          <div key={recipe.id} className="recipe-tile">
+          <div key={recipe.id} className="image-tile">
             <Link to={`${recipe.id}`} className="all-recipes-link">
-              <div className="recipe-image-container">
+              <div className="image-tile-container">
                 {recipe.preview_image ? (
                   <img
                     src={recipe.preview_image}
                     alt={`${recipe.name} image`}
-                    className="recipe-image"
                   />
                 ) : (
-                  <img
-                    src={no_image_available}
-                    alt="no image available"
-                    className="recipe-image"
-                  />
+                  <img src={no_image_available} alt="no image available" />
                 )}
               </div>
               <div className="recipe-highlight">
@@ -49,12 +43,11 @@ function AllRecipes() {
               </div>
             </Link>
             {/* Save button and collection selection */}
-            <div className="recipe-action-buttons">
+            <div className="image-tile-action-buttons">
               <OpenModalButton
                 buttonText="Save"
-                id="save-collection-button"
                 modalComponent={
-                  <SaveRecipeToCollection
+                  <EditRecipeCollection
                     recipeId={recipe.id}
                     recipeName={recipe.name}
                     recipeImage={recipe.preview_image}

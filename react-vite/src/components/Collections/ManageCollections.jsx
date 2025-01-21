@@ -14,8 +14,6 @@ import {
   fetchCollectionsByOwner,
 } from "../../../src/redux/collections";
 
-import "./CollectionTiles.css";
-
 const ManageCollections = () => {
   const dispatch = useDispatch();
 
@@ -53,16 +51,16 @@ const ManageCollections = () => {
       </div>
 
       {/* List of Collections */}
-      <div className="collections-grid">
+      <div className="images-grid">
         {userCollections?.map((collection) => (
-          <div key={collection.id} className="collection-tile">
-            <div className="image-tile">
+          <div key={collection.id} className="image-tile">
+            <div>
               {/* Only make the image clickable */}
               <Link
                 to={`/collections/${collection.id}`}
                 className="collection-link"
               >
-                <div className="collection-image-container">
+                <div className="image-tile-container">
                   {collection?.collection_image ? (
                     <img
                       src={collection.collection_image}
@@ -80,7 +78,7 @@ const ManageCollections = () => {
               </Link>
 
               {/* Action Buttons */}
-              <div className="collection-action-buttons">
+              <div className="image-tile-action-buttons">
                 <OpenModalButton
                   buttonText={
                     <>
@@ -109,7 +107,7 @@ const ManageCollections = () => {
               </div>
             </div>
             <div>
-              <p className="collection-tile-name">{collection.name}</p>
+              <p className="image-tile-name">{collection.name}</p>
             </div>
           </div>
         ))}

@@ -79,13 +79,14 @@ const RecipeDetails = () => {
                         />
                       ) : (
                         <div className="placeholder">
-                          {currentUser.id == recipe.owner_id ? (
+                          {!currentUser ||
+                          currentUser.id !== recipe.owner_id ? (
+                            <img src={noImage} alt="no image available" />
+                          ) : (
                             <>
                               <MdOutlineAddAPhoto className="add-photo-icon" />
                               <p className="add-photo-text">Add Photo</p>
                             </>
-                          ) : (
-                            <img src={noImage} alt="no image available" />
                           )}
                         </div>
                       )}

@@ -12,6 +12,7 @@ import {
 } from "../../redux/collections";
 
 import no_image_available from "../../../public/no_image_available.png";
+import "./EditPin.css";
 
 function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
   const dispatch = useDispatch();
@@ -99,19 +100,11 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
       <form>
         <div>
           <h2>{recipeName}</h2>
-          <div className="recipe-image-container">
+          <div className="recipe-pin-image">
             {recipeImage ? (
-              <img
-                src={recipeImage}
-                alt={`${recipeName} image`}
-                className="recipe-image"
-              />
+              <img src={recipeImage} alt={`${recipeName} image`} />
             ) : (
-              <img
-                src={no_image_available}
-                alt="no image available"
-                className="recipe-image"
-              />
+              <img src={no_image_available} alt="no image available" />
             )}
           </div>
           <p>Select a Collection:</p>

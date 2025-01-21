@@ -14,6 +14,8 @@ import {
 
 import no_image_available from "../../../public/no_image_available.png";
 
+import "./EditPin.css";
+
 function EditPin({ recipeId, recipeName, recipeImage }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
@@ -109,52 +111,47 @@ function EditPin({ recipeId, recipeName, recipeImage }) {
   };
 
   return (
-    <div className="save-recipe-container">
-      <div>
-        <h2>{recipeName}</h2>
-        <div className="recipe-image-container">
-          {recipeImage ? (
-            <img
-              src={recipeImage}
-              alt={`${recipeName} image`}
-              className="recipe-image"
-            />
-          ) : (
-            <img
-              src={no_image_available}
-              alt="no image available"
-              className="recipe-image"
-            />
-          )}
-        </div>
-        <p>Select a Collection:</p>
-        <select
-          onChange={(e) => handleCollectionChange(e.target.value)}
-          value={selectedCollection || ""}
-        >
-          <option value="" disabled>
-            Choose a collection
-          </option>
-          {userCollections?.map((collection) => (
-            <option key={collection.id} value={collection.id}>
-              {collection.name}
+    <div className="page-form-container">
+      <form>
+        <div>
+          <h2>{recipeName}</h2>
+          <div className="recipe-pin-image">
+            {recipeImage ? (
+              <img src={recipeImage} alt={`${recipeName} image`} />
+            ) : (
+              <img src={no_image_available} alt="no image available" />
+            )}
+          </div>
+          <p>Select a Collection:</p>
+          <select
+            onChange={(e) => handleCollectionChange(e.target.value)}
+            value={selectedCollection || ""}
+          >
+            <option value="" disabled>
+              Choose a collection
             </option>
-          ))}
-        </select>
-        {warning && <p className="warning">{warning}</p>}
-      </div>
-      <OpenModalButton
-        buttonText="Create Collection"
-        id="create-collection"
-        modalComponent={
-          <CreateCollection
-            collection_id={userCollections.id}
-            collection_name={userCollections.name}
-          />
-        }
-      />
-      <button onClick={handleSaveRecipe}>Add to Collection</button>
-      <button onClick={handleRemoveRecipe}>Remove From Collection</button>
+            {userCollections?.map((collection) => (
+              <option key={collection.id} value={collection.id}>
+                {collection.name}
+              </option>
+            ))}
+          </select>
+          {warning && <p className="warning">{warning}</p>}
+        </div>
+
+        <button onClick={handleSaveRecipe}>Add to Collection</button>
+        <button onClick={handleRemoveRecipe}>Remove From Collection</button>
+        <OpenModalButton
+          buttonText="Create Collection"
+          id="create-collection"
+          modalComponent={
+            <CreateCollection
+              collection_id={userCollections.id}
+              collection_name={userCollections.name}
+            />
+          }
+        />
+      </form>
 
       {successMessage && (
         <div className="success-popup">

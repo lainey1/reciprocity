@@ -36,36 +36,28 @@ const ViewCollection = () => {
   return (
     <div className="page-container">
       <h2>{currentCollection?.name}</h2>
-      <div className="recipes-grid">
+      <div className="images-grid">
         {/* Conditional rendering for empty collections */}
         {!collectionRecipes || collectionRecipes.length === 0 ? (
-          <div className="recipe-tile">
+          <div className="image-tile">
             <p>There aren’t any recipes in this collection yet...</p>
           </div>
         ) : (
           collectionRecipes.map((recipe) => (
-            <div key={recipe.id} className="recipe-tile">
-              <div className="image-tile">
-                <Link to={`/recipes/${recipe.id}`} className="recipe-link">
-                  <div className="recipe-image-container">
-                    {recipe?.preview_image ? (
-                      <img
-                        src={recipe.preview_image}
-                        className="recipe-image"
-                      />
-                    ) : (
-                      <img
-                        src={no_image_available}
-                        alt="no image available"
-                        className="recipe-image"
-                      />
-                    )}
-                  </div>
-                </Link>
-              </div>
-              <div className="recipe-action-buttons">
+            <div key={recipe.id} className="image-tile">
+              <Link to={`/recipes/${recipe.id}`} className="recipe-link">
+                <div className="image-tile-container">
+                  {recipe?.preview_image ? (
+                    <img src={recipe.preview_image} />
+                  ) : (
+                    <img src={no_image_available} alt="no image available" />
+                  )}
+                </div>
+              </Link>
+
+              <div>
                 {currentUser?.id === recipe.owner_id ? (
-                  <div className="recipe-action-buttons">
+                  <div className="image-tile-action-buttons">
                     <OpenModalButton
                       buttonText="Delete"
                       id="delete-button"
@@ -84,7 +76,7 @@ const ViewCollection = () => {
                     </button>
                   </div>
                 ) : (
-                  <div className="save-recipe-container">
+                  <div className="image-tile-action-buttons">
                     <OpenModalButton
                       buttonText="Edit Pin"
                       id="edit-button"
