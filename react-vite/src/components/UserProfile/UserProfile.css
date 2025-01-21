@@ -8,6 +8,7 @@
 
 #main-profile {
   display: flex;
+  padding: 25px;
   border-radius: 25px;
   margin-top: 25px;
   background-color: #9c9f77;
@@ -95,15 +96,15 @@ p {
 
 #edit-profile-button {
   border-radius: 20px;
-  font-size: 1.15em;
-  background-color: #465775;
+  font-size: 1.15rem;
+  background-color: rgb(70, 87, 117, 0.9);
   color: white;
   padding: 15px;
-  border: none;
+  border: 1px solid #230903;
 }
 
 #edit-profile-button:hover {
-  background-color: rgb(70, 87, 117, 0.7);
+  background-color: #465775;
 }
 .main-content {
   margin: 0px;
@@ -167,5 +168,9 @@ p {
   #user-info {
     padding: 0px;
     margin: 5px auto;
+  }
+
+  #edit-profile-button {
+    width: 100%;
   }
 }

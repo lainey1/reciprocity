@@ -30,7 +30,7 @@ function Navigation() {
       {/* Navigation Links */}
       <div id="nav-links">
         <Link to="/recipes" className="nav-link">
-          All Recipes
+          Explore
         </Link>
         <Link to="/about" className="nav-link">
           About

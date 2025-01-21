@@ -3,7 +3,7 @@
   min-height: 100vh;
   max-width: 1100px;
   margin: 25px auto;
-  padding: 0 25px;
+  padding: 25px;
   border-radius: 50px;
 }
 
@@ -31,6 +31,7 @@
 }
 
 .right-side {
+  margin: 50px;
   flex: 1;
   padding: 0;
   padding-right: 25px;
@@ -40,14 +41,15 @@
   justify-content: flex-start;
 }
 
-.left-side h2 {
-  font-size: 2em;
+.recipe-name {
+  font-size: 2.25em;
   color: #465775;
 }
 
 .right-side h3 {
   color: #465775;
   margin-bottom: 10px;
+  margin-top: 20px;
   border-bottom: 1px solid #ccc;
 }
 
@@ -62,6 +64,8 @@
 }
 
 .image-container {
+  display: flex;
+  align-items: center;
   width: 100%;
   max-width: 375px;
   height: auto;
@@ -112,8 +116,11 @@ button:focus {
 /* Adjust navigation buttons for mobile */
 .prev-button,
 .next-button {
-  font-size: 1.5rem;
   margin: 5px;
+  border-radius: 50%;
+  background-color: #f4a6a6;
+  color: #230903;
+  font-size: 1rem;
 }
 
 /* Modal Background */

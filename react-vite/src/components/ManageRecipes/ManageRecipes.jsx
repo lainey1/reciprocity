@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaMinusCircle } from "react-icons/fa";
 
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import DeleteRecipeModal from "./DeleteRecipeModal";
@@ -43,7 +43,7 @@ function ManageRecipes() {
     <div>
       <div id="manage-recipe-buttons">
         <button onClick={() => navigate("/recipes/new")} className="add-button">
-          Create Recipe
+          <FaEdit /> Create Recipe
         </button>
       </div>
 
@@ -78,12 +78,17 @@ function ManageRecipes() {
               {/* Action Buttons */}
               <div className="recipe-action-buttons">
                 <OpenModalButton
-                  buttonText="Delete"
+                  buttonText={
+                    <>
+                      <FaMinusCircle /> Delete
+                    </>
+                  }
                   id="delete-button"
                   modalComponent={
                     <DeleteRecipeModal
                       recipe_id={recipe.id}
                       recipe_name={recipe.name}
+                      owner_id={currentUser.id}
                     />
                   }
                 />

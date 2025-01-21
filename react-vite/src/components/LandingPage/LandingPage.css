@@ -16,6 +16,17 @@
   object-fit: contain;
 }
 
+#section-header,
+#typed-container {
+  display: inline;
+  margin: 0;
+  color: #230903;
+}
+
+#typed-container {
+  display: inline-block;
+}
+
 /* Responsive Styles */
 @media (max-width: 1024px) {
   .page-container h2 {

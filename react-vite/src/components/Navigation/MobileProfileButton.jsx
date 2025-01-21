@@ -60,11 +60,9 @@ function MobileProfileButton() {
             {user ? (
               <>
                 <li
-                  onClick={() =>
-                    navigate("/user/:user_id?section=created_recipes")
-                  }
+                  onClick={() => navigate("/user/:user_id?section=collections")}
                 >
-                  Edit Profile
+                  Profile & Recipes
                 </li>
                 <li onClick={() => navigate("/recipes")}>All Recipes</li>
                 <li onClick={logout}>Logout</li>
@@ -82,7 +80,7 @@ function MobileProfileButton() {
                   modalComponent={<SignupFormModal />}
                 />
                 <hr className="menu-separator" /> {/* Horizontal line */}
-                <li onClick={() => navigate("/recipes")}>All Recipes</li>
+                <li onClick={() => navigate("/recipes")}>Explore</li>
               </>
             )}
           </ul>

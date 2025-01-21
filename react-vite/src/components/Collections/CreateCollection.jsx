@@ -3,9 +3,12 @@ import { useDispatch } from "react-redux";
 
 import { useModal } from "../../context/Modal";
 
-import { createNewCollection } from "../../../src/redux/collections";
+import {
+  createNewCollection,
+  fetchCollectionsByOwner,
+} from "../../../src/redux/collections";
 
-const CreateCollection = () => {
+const CreateCollection = (owner_id) => {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
 
@@ -20,6 +23,8 @@ const CreateCollection = () => {
     dispatch(createNewCollection(payload));
     setNewCollectionName("");
     setNewCollectionDescription("");
+    dispatch(fetchCollectionsByOwner(owner_id));
+    window.location.reload(); // Force reload after deletion
     closeModal();
   };
 

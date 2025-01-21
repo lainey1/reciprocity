@@ -33,12 +33,7 @@
 
 .two-columns {
   display: flex;
-  gap: 50px;
-}
-
-.form-column {
-  flex: 1;
-  min-width: 300px;
+  gap: 25px;
 }
 
 .form-column label {
@@ -91,29 +86,10 @@
 }
 
 @media (max-width: 768px) {
-  .form-page-container {
-    margin: 5%;
-    padding: 5%;
-  }
-
-  .form-page-container form {
-    margin: 0px;
-    padding: 5%;
-  }
-
-  .form-header {
-    display: flex;
-    flex-direction: column;
-  }
-  .form-buttons {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 100%;
-  }
   .two-columns {
     display: flex;
     flex-direction: column;
+    gap: 0;
   }
   .add-delete-row {
     display: flex;

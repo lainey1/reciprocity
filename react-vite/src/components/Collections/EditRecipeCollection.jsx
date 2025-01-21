@@ -23,8 +23,8 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
   const userId = useSelector((state) => state.session.user.id);
 
   const [selectedCollection, setSelectedCollection] = useState(null);
-  const [warning, setWarning] = useState(null); // State for warning message
-  const [successMessage, setSuccessMessage] = useState(null); // State for success message popup
+  const [warning, setWarning] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const initialFetchCompleted = useRef(false);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
 
   const handleCollectionChange = (collectionId) => {
     setSelectedCollection(collectionId);
-    setWarning(null); // Reset warning when user selects a new collection
+    setWarning(null);
   };
 
   const handleSaveRecipe = async () => {
@@ -59,7 +59,6 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
       return;
     }
 
-    // Check if recipe already exists in the selected collection
     const collection = userCollections.find(
       (coll) => coll.id === selectedCollection
     );
@@ -67,13 +66,12 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
 
     if (recipeExists) {
       setWarning("This recipe is already in the selected collection.");
-      return; // Don't save if recipe already exists
+      return;
     }
 
     dispatch(addRecipe(selectedCollection, recipeId));
     dispatch(fetchCollectionsByOwner(userId));
 
-    // Find the collection by id and get the name
     const collectionName = userCollections.find(
       (coll) => coll.id === selectedCollection
     )?.name;
@@ -83,62 +81,70 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
     } else {
       setSuccessMessage("Recipe saved successfully!");
     }
-
-    setTimeout(() => {
-      setSuccessMessage(null);
-      closeModal();
-    }, 3000);
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+        closeModal();
+      }, 1000);
+
+      return () => clearTimeout(timer); // Cleanup timeout on component unmount or re-render
+    }
+  }, [successMessage, closeModal]);
 
   return (
     <div className="save-recipe-container">
-      <div>
-        <h2>{recipeName}</h2>
-        <div className="recipe-image-container">
-          {recipeImage ? (
-            <img
-              src={recipeImage}
-              alt={`${recipeName} image`}
-              className="recipe-image"
-            />
-          ) : (
-            <img
-              src={no_image_available}
-              alt="no image available"
-              className="recipe-image"
-            />
-          )}
-        </div>
-        <p>Select a Collection:</p>
-        <select
-          onChange={(e) => handleCollectionChange(e.target.value)}
-          value={selectedCollection || ""}
-        >
-          <option value="" disabled>
-            Choose a collection
-          </option>
-          {userCollections?.map((collection) => (
-            <option key={collection.id} value={collection.id}>
-              {collection.name}
+      <form>
+        <div>
+          <h2>{recipeName}</h2>
+          <div className="recipe-image-container">
+            {recipeImage ? (
+              <img
+                src={recipeImage}
+                alt={`${recipeName} image`}
+                className="recipe-image"
+              />
+            ) : (
+              <img
+                src={no_image_available}
+                alt="no image available"
+                className="recipe-image"
+              />
+            )}
+          </div>
+          <p>Select a Collection:</p>
+          <select
+            onChange={(e) => handleCollectionChange(e.target.value)}
+            value={selectedCollection || ""}
+          >
+            <option value="" disabled>
+              Choose a collection
             </option>
-          ))}
-        </select>
-        {warning && <p className="warning">{warning}</p>}{" "}
-        {/* Display warning */}
-      </div>
-      <OpenModalButton
-        buttonText="Create Collection"
-        id="create-collection"
-        modalComponent={
-          <CreateCollection
-            collection_id={userCollections.id}
-            collection_name={userCollections.name}
-          />
-        }
-      />
-      <button onClick={handleSaveRecipe}>Save to Collection</button>
+            {userCollections?.map((collection) => (
+              <option key={collection.id} value={collection.id}>
+                {collection.name}
+              </option>
+            ))}
+          </select>
+          {warning && <p className="warning">{warning}</p>}
+        </div>
+        <OpenModalButton
+          buttonText="Create Collection"
+          id="create-collection"
+          modalComponent={
+            <CreateCollection
+              collection_id={userCollections.id}
+              collection_name={userCollections.name}
+            />
+          }
+        />
+        <button type="button" onClick={handleSaveRecipe}>
+          Save to Collection
+        </button>
+      </form>
 
-      {/* Success message popup */}
       {successMessage && (
         <div className="success-popup">
           <p>{successMessage}</p>

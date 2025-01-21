@@ -18,7 +18,8 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.15.0",
     "redux": "^4.2.1",
-    "redux-thunk": "^2.4.2"
+    "redux-thunk": "^2.4.2",
+    "typed.js": "^2.1.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",

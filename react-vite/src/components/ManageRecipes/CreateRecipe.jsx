@@ -1,7 +1,7 @@
 // react-vite/src/components/ManageRecipes/CreateRecipe.jsx
 
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import { FaPlus, FaMinus } from "react-icons/fa6";
@@ -18,6 +18,8 @@ import "./CreateRecipe.css";
 const CreateRecipe = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const currentUser = useSelector((state) => state.session.user);
 
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
@@ -119,30 +121,10 @@ const CreateRecipe = () => {
     }
   };
 
-  const cancel = () => {
-    console.log("Recipe Creation Cancelled");
-    setFormData({
-      name: "",
-      yield_servings: "",
-      prep_time: "",
-      cook_time: "",
-      total_time: "",
-      cuisine: "",
-      short_description: "",
-      description: "",
-      ingredients: [""],
-      instructions: [""],
-      tags: "",
-    });
-  };
-
   return (
     <div className="form-page-container">
-      <div>
-        <h2>Create Recipe</h2>
-      </div>
-
       <form>
+        <h2>Create Recipe</h2>
         <label>
           Recipe Name
           <input
@@ -347,12 +329,16 @@ const CreateRecipe = () => {
             Reset
           </button>
 
-          <button type="button" onClick={cancel}>
+          <button
+            type="button"
+            onClick={() =>
+              navigate(`/user/${currentUser.id}?section=created_recipes`)
+            }
+          >
             Cancel
           </button>
         </div>
         <br />
-        <hr />
       </form>
     </div>
   );

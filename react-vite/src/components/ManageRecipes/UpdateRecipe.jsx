@@ -14,11 +14,10 @@ const UpdateRecipe = () => {
 
   // Selector
   const recipe = useSelector((state) => state.recipes?.recipes[recipe_id]);
+  const userId = useSelector((state) => state.session?.user);
 
-  // set up errors list and future feature popups
+  // set up errors list
   const [errors, setErrors] = useState({});
-  const [flashMessage, setFlashMessage] = useState("");
-  const [showFlash, setShowFlash] = useState(false);
 
   // State Hooks to grab current recipe data from db
   const [formData, setFormData] = useState(initialFormData);
@@ -104,18 +103,6 @@ const UpdateRecipe = () => {
     });
   };
 
-  // Handlers for Save Draft, Post Recipe, Cancel
-  // Add flash message logic to saveDraft
-  const saveDraft = () => {
-    setFlashMessage("Feature Coming Soon");
-    setShowFlash(true);
-
-    // Hide the flash message after 3 seconds
-    setTimeout(() => {
-      setShowFlash(false);
-    }, 3000);
-  };
-
   const postRecipe = async (e) => {
     e.preventDefault();
 
@@ -138,23 +125,6 @@ const UpdateRecipe = () => {
         console.error("Failed to update recipe:", error);
       }
     }
-  };
-
-  const cancel = () => {
-    console.log("Recipe Creation Cancelled");
-    setFormData({
-      name: "",
-      yield_servings: "",
-      prep_time: "",
-      cook_time: "",
-      total_time: "",
-      cuisine: "",
-      short_description: "",
-      description: "",
-      ingredients: [""],
-      instructions: [""],
-      tags: "",
-    });
   };
 
   // Fetch recipe
@@ -368,21 +338,18 @@ const UpdateRecipe = () => {
           />
         </label>
 
-        {showFlash && <div className="flash-message">{flashMessage}</div>}
-
         <div className="form-buttons">
-          <button type="button" onClick={saveDraft}>
-            Save Draft
-          </button>
           <button type="button" onClick={postRecipe}>
             Post Recipe
           </button>
-          <button type="button" onClick={cancel}>
+          <button
+            type="button"
+            onClick={() => navigate(`/user/${userId}?section=created_recipes`)}
+          >
             Cancel
           </button>
         </div>
         <br />
-        <hr />
       </form>
     </div>
   );

@@ -1,9 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
 
 import ManageRecipes from "../ManageRecipes/ManageRecipes";
 import ManageCollections from "../Collections/ManageCollections";
+import EditProfile from "./EditProfile";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
 
 import { thunkAuthenticate } from "../../redux/session";
 
@@ -50,12 +53,15 @@ function UserProfile() {
           <p>{currentUser.bio}</p>
 
           {/* user/:userId/edit */}
-          <button
+          <OpenModalButton
+            buttonText={
+              <span>
+                <FaEdit /> Edit Profile
+              </span>
+            }
             id="edit-profile-button"
-            onClick={() => navigate(`/user/${currentUser.id}/edit`)}
-          >
-            Edit Profile
-          </button>
+            modalComponent={<EditProfile user_id={currentUser.id} />}
+          />
         </div>
       </div>
 

@@ -1,8 +1,9 @@
 import { useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { thunkDeleteProfile, thunkLogout } from "../../redux/session";
-import { useModal } from "../../context/Modal";
 import { useNavigate } from "react-router-dom";
+
+import { useModal } from "../../context/Modal";
 
 const DeleteProfile = ({ user_id }) => {
   const navigate = useNavigate();
