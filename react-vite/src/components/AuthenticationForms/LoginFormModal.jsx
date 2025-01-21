@@ -4,6 +4,8 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 
+import "./AuthForms.css";
+
 function LoginFormModal() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

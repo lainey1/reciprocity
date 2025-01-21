@@ -159,6 +159,13 @@ def collections_by_owner(owner_id):
             collection_data = collection.to_dict()
 
 
+            # Grab its collection image
+            collection_image = CollectionImage.query.filter_by(collection_id=collection.id).first()
+            collection_image_url = collection_image.image_url if collection_image else None
+
+            # Add collection image to recipe's dictionary
+            collection_data['collection_image'] = collection_image_url
+
             # Append the collection dictionary to the owner's collections list
             owners_collections_list.append(collection_data)
 
@@ -213,8 +220,6 @@ def add_collection():
             created_at=now,  # Pass datetime object directly
             updated_at=now   # Pass datetime object directly
         )
-
-        print(f"Attempting to add collection with name ==========> {new_collection}")
 
         try:
             db.session.add(new_collection)

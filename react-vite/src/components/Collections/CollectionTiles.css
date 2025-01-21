@@ -1,0 +1,175 @@
+#manage-collection-buttons {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.add-button {
+  border-radius: 20px;
+  font-size: 1.15em;
+  background-color: #465775;
+  padding: 15px;
+}
+
+.add-button:hover {
+  background-color: rgb(70, 87, 117, 0.7);
+}
+
+.collections-grid {
+  padding: 20px;
+  margin-top: 25px;
+  column-count: 5;
+  column-gap: 20px;
+}
+
+.collection-tile {
+  position: relative;
+
+  min-width: 200px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 20px;
+
+  text-align: center;
+  overflow: hidden;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  break-inside: avoid; /* Prevent tiles from breaking between columns */
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.collection-tile:hover .collection-action-buttons {
+  opacity: 1;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 500;
+}
+
+.collection-tile-name {
+  font-weight: 500;
+  font-size: 1.25em;
+  text-align: left;
+}
+
+.collection-image-container {
+  position: relative; /* Enables positioning of child elements relative to this container */
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.collection-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.collection-action-buttons {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.collection-tile:hover .collection-action-buttons {
+  opacity: 1;
+}
+
+.collection-action-buttons > button {
+  font-size: 1.25em;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.collection-action-buttons > button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* .collection-action-buttons > button:hover {
+  background-color: rgb(156, 159, 119);
+  color: white;
+} */
+
+#delete-button {
+  color: white;
+  z-index: 2;
+}
+
+textarea {
+  height: 150px;
+  width: 300px;
+}
+
+/* Media Query for Mobile Devices */
+@media (max-width: 768px) {
+  .page-form-container {
+    margin: 0 5%;
+  }
+  .collection-action-buttons {
+    display: flex;
+    justify-content: space-evenly;
+    opacity: 1; /* Always show buttons on mobile */
+  }
+
+  .collection-action-buttons > button {
+    font-size: 1em; /* Adjust font size for mobile */
+    padding: 8px; /* Adjust padding for mobile */
+  }
+
+  #manage-collection-buttons {
+    flex-direction: column; /* Stack the buttons vertically */
+    gap: 10px; /* Add space between buttons */
+  }
+
+  .add-button {
+    font-size: 1.1em;
+    padding: 12px;
+  }
+}
+
+/* Tablet size (portrait or medium screens) */
+@media (max-width: 1300px) {
+  .collections-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Tablet size (portrait or medium screens) */
+@media (max-width: 1024px) {
+  .collections-grid {
+    column-count: 3;
+    column-gap: 20px;
+    padding: 20px;
+  }
+}
+
+/* Mobile size */
+@media (max-width: 768px) {
+  .collections-grid {
+    column-count: 2;
+    column-gap: 20px;
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .collections-grid {
+    column-count: 1;
+    column-gap: 20px;
+    padding: 20px;
+  }
+
+  .collection-tile {
+    padding: 10px;
+  }
+}

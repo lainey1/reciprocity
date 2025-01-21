@@ -8,21 +8,32 @@
 
 #main-profile {
   display: flex;
+  border-radius: 25px;
+  margin-top: 25px;
+  background-color: #9c9f77;
+}
+
+#user-profile-pic {
+  display: flex;
+  justify-content: center;
 }
 
 #user-profile-pic > img {
   width: 250px;
+  height: auto;
   border-radius: 50%;
   object-fit: cover;
   margin: 25px 50px;
 }
 
 #user-info {
+  padding: 25px;
+  border-radius: 25px;
+  max-width: 400px;
+  margin: 25px auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 400px;
-  margin: 0 auto;
 }
 
 #user-info > h2 {
@@ -66,23 +77,20 @@ p {
 .menu > button {
   justify-content: center;
   background-color: transparent;
+  border: none;
   padding: 15px;
-  border-radius: 20px;
-  border: 1px solid rgb(110, 110, 110);
   margin: 50px 25px 25px;
   font-size: 1.25em;
+  font-weight: 600;
 }
 
 .menu > button:hover {
-  background-color: rgb(156, 159, 119, 0.5);
-  border: 1px solid rgb(110, 110, 110);
-  border-radius: 20px;
+  cursor: pointer;
 }
 
 /* Highlight active section with a black bottom border */
 .menu > button.active {
-  background-color: #9c9f77;
-  border: 2px solid rgb(110, 110, 110);
+  border: 2px solid #230903;
 }
 
 #edit-profile-button {
@@ -148,5 +156,16 @@ p {
   /* Adjust the profile icon for mobile */
   #reciprocity-icon {
     height: 30px; /* Increase icon size for better visibility on mobile */
+  }
+}
+
+@media (max-width: 480px) {
+  #user-profile-pic > img {
+    margin: 25px 25px;
+  }
+
+  #user-info {
+    padding: 0px;
+    margin: 5px auto;
   }
 }
