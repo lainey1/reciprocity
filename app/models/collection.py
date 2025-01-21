@@ -18,8 +18,8 @@ class Collection(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
 
     # Relationships
-    collection_images = db.relationship('CollectionImage', backref='collection', lazy=True)
-    collection_recipes = db.relationship('CollectionRecipe', backref='collection', lazy=True, cascade='all, delete-orphan')
+    collection_images = db.relationship('CollectionImage', backref='collection', lazy=True, cascade="all, delete-orphan")
+    recipes = db.relationship('CollectionRecipe', backref='collection', lazy=True, cascade="all, delete-orphan")
 
 
     def to_dict(self):
@@ -32,7 +32,7 @@ class Collection(db.Model):
             'updated_at': self.updated_at.isoformat(),
         }
 
-        # # Include associated recipes
-        # collection_dict['recipes'] = [recipe.recipe.to_dict() for recipe in self.recipes]
+        # Include associated recipes
+        collection_dict['recipes'] = [recipe.recipe.to_dict() for recipe in self.recipes]
 
         return collection_dict
