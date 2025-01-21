@@ -28,6 +28,8 @@ class Recipe(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
 
 
+
+
     # Relationships with cascade delete
     recipe_collections = db.relationship(
         'CollectionRecipe',
@@ -55,6 +57,10 @@ class Recipe(db.Model):
     # )
 
     def to_dict(self):
+        # Find the preview image if it exists
+        preview_image = next(
+        (image for image in self.recipe_images if image.is_preview), None
+    )
         recipe_dict = {
             'id': self.id,
             'name': self.name,
@@ -73,6 +79,11 @@ class Recipe(db.Model):
             'tags': self.tags,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),
+            'preview_image': preview_image.image_url if preview_image else None,
+            # Include recipe images
+            'recipe_images': [image.to_dict() for image in self.recipe_images]
+
+
 
         }
         return recipe_dict

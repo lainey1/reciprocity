@@ -68,7 +68,7 @@ def seed_collection_images():
 
 def undo_collection_images():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.recipe_images RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.collection_images RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM recipe_images"))
+        db.session.execute(text("DELETE FROM collection_images"))
     db.session.commit()

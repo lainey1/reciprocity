@@ -6,11 +6,13 @@ import { thunkLogout } from "../../redux/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import { LoginFormModal, SignupFormModal } from "../AuthenticationForms";
 
-function HamburgerButton() {
+import icon from "../../../public/reciprocity_logo.png";
+
+function MobileProfileButton() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const user = useSelector((store) => store.session.user);
+  const user = useSelector((store) => store.session?.user);
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
@@ -44,32 +46,27 @@ function HamburgerButton() {
   };
 
   return (
-    <div className="hamburger-button-container">
-      <button onClick={toggleMenu} id="hamburger-button">
-        ☰
+    <div className="mobile-profile-container">
+      <button onClick={toggleMenu} id="mobile-profile-button">
+        <img
+          src={user?.profile_image_url || icon}
+          alt={`${user?.first_name}'s profile`}
+          className="profile-image"
+        />
       </button>
       <div className="drop-down-container">
         {showMenu && (
           <ul className={"profile-menu-dropdown"} ref={ulRef}>
             {user ? (
               <>
-                <li className="profile-details no-click">
-                  <img
-                    src={user.profile_image_url || "/default-profile.png"}
-                    alt={`${user.first_name}'s profile`}
-                    className="profile-image"
-                  />
-                  <div id="profile-details-text">
-                    <p style={{ fontWeight: "bold" }}>{user.first_name}</p>
-                    <p>{user.username}</p>
-                    <p>{user.email}</p>
-                  </div>
+                <li
+                  onClick={() =>
+                    navigate("/user/:user_id?section=created_recipes")
+                  }
+                >
+                  Edit Profile
                 </li>
-                <hr className="menu-separator" /> {/* Horizontal line */}
                 <li onClick={() => navigate("/recipes")}>All Recipes</li>
-                <li onClick={() => navigate("recipes/owner/:owner_id")}>
-                  Manage Recipes
-                </li>
                 <li onClick={logout}>Logout</li>
               </>
             ) : (
@@ -95,4 +92,4 @@ function HamburgerButton() {
   );
 }
 
-export default HamburgerButton;
+export default MobileProfileButton;

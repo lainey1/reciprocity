@@ -113,8 +113,6 @@ export const thunkUpdateRecipe =
   (recipe_id, recipeData) => async (dispatch) => {
     dispatch(setLoading(true));
 
-    console.log("FROM FRONT END ====>", recipeData);
-
     try {
       const response = await fetch(`/api/recipes/${recipe_id}/edit`, {
         method: "PUT",
@@ -142,7 +140,6 @@ export const thunkUpdateRecipe =
 
 export const thunkDeleteRecipe = (id) => async (dispatch) => {
   dispatch(setLoading(true));
-  console.log(id);
 
   try {
     const response = await fetch(`/api/recipes/${id}`, {

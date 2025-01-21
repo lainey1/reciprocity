@@ -418,7 +418,7 @@ def seed_recipes():
     )
 
     recipe13 = Recipe(
-        name="Soupe à l'Oignon (French Onion Soup)",
+        name="Soupe à l'Oignon",
         yield_servings=4,
         prep_time=15,
         cook_time=90,

@@ -16,23 +16,6 @@
   margin-bottom: 20px;
 }
 
-.form-buttons button {
-  margin-left: 10px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: #9c9f77;
-  opacity: 0.8;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.form-buttons button:hover {
-  background-color: #9c9f77;
-  opacity: 1;
-}
-
 .flash-message {
   background-color: #465775;
   color: #fff;
@@ -40,39 +23,6 @@
   border-radius: 4px;
   text-align: center;
   margin-bottom: 20px;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  margin: 25px;
-}
-
-label,
-h3 {
-  display: flex;
-  flex-direction: column;
-  font-size: 1.25em;
-  font-weight: bold;
-  color: #333;
-}
-
-input,
-textarea,
-select {
-  margin-top: 5px;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 14px;
-  max-width: 80%;
-  width: 80%;
-  box-sizing: border-box; /* Ensure padding and border are included in the width */
-}
-
-textarea {
-  resize: vertical;
 }
 
 .error-message {
@@ -84,21 +34,42 @@ textarea {
 .two-columns {
   display: flex;
   gap: 50px;
-  flex-wrap: wrap;
+}
+
+.form-column {
+  flex: 1;
+  min-width: 300px;
+}
+
+.form-column label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.form-column select {
+  width: 100%;
 }
 
 .add-delete-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-bottom: 10px;
 }
 
 .add-delete-row input {
+  margin-top: 1em;
   flex: 1;
 }
 
+.add-delete-row span {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
 .add-delete-row button {
-  margin-left: 10px;
   padding: 5px;
   border: none;
   border-radius: 4px;
@@ -112,6 +83,11 @@ textarea {
   background-color: #9c9f77;
   opacity: 1;
   color: white;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
 }
 
 @media (max-width: 768px) {

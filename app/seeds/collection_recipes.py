@@ -167,7 +167,7 @@ def seed_collection_recipes():
 
 def undo_collection_recipes():
     if environment == "production":
-        db.session.execute(f"TRUNCATE table {SCHEMA}.collections RESTART IDENTITY CASCADE;")
+        db.session.execute(f"TRUNCATE table {SCHEMA}.collection_recipes RESTART IDENTITY CASCADE;")
     else:
-        db.session.execute(text("DELETE FROM collections"))
+        db.session.execute(text("DELETE FROM collection_recipes"))
     db.session.commit()

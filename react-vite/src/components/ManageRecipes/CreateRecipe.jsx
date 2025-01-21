@@ -20,10 +20,9 @@ const CreateRecipe = () => {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState(initialFormData);
-
   const [errors, setErrors] = useState({});
-  const [flashMessage, setFlashMessage] = useState("");
-  const [showFlash, setShowFlash] = useState(false);
+  // const [flashMessage, setFlashMessage] = useState("");
+  // const [showFlash, setShowFlash] = useState(false);
 
   // Handle input changes
   const handleChange = (e) => {
@@ -86,15 +85,15 @@ const CreateRecipe = () => {
 
   // Handlers for Save Draft, Post Recipe, Cancel
   // Add flash message logic to saveDraft
-  const saveDraft = () => {
-    setFlashMessage("Feature Coming Soon");
-    setShowFlash(true);
+  // const saveDraft = () => {
+  //   setFlashMessage("Feature Coming Soon");
+  //   setShowFlash(true);
 
-    // Hide the flash message after 3 seconds
-    setTimeout(() => {
-      setShowFlash(false);
-    }, 3000);
-  };
+  //   // Hide the flash message after 3 seconds
+  //   setTimeout(() => {
+  //     setShowFlash(false);
+  //   }, 3000);
+  // };
 
   const postRecipe = async (e) => {
     e.preventDefault();
@@ -139,13 +138,13 @@ const CreateRecipe = () => {
 
   return (
     <div className="form-page-container">
-      <div className="form-header">
+      <div>
         <h2>Create Recipe</h2>
       </div>
 
       <form>
         <label>
-          Recipe Name:
+          Recipe Name
           <input
             type="text"
             name="name"
@@ -157,7 +156,7 @@ const CreateRecipe = () => {
         <div className="two-columns">
           <div className="form-column">
             <label>
-              Prep Time (minutes):
+              Prep Time (minutes)
               <input
                 type="number"
                 name="prep_time"
@@ -170,7 +169,7 @@ const CreateRecipe = () => {
             </label>
 
             <label>
-              Cook Time (minutes):
+              Cook Time (minutes)
               <input
                 type="number"
                 name="cook_time"
@@ -183,7 +182,7 @@ const CreateRecipe = () => {
             </label>
 
             <label>
-              Total Time (minutes):
+              Total Time (minutes)
               <input
                 type="number"
                 name="total_time"
@@ -195,10 +194,9 @@ const CreateRecipe = () => {
               )}
             </label>
           </div>
-
           <div className="form-column">
             <label>
-              Servings:
+              Servings
               <input
                 type="number"
                 name="yield_servings"
@@ -255,7 +253,7 @@ const CreateRecipe = () => {
         </div>
 
         <label>
-          Short Description:
+          Short Description
           <input
             type="text"
             name="short_description"
@@ -268,7 +266,7 @@ const CreateRecipe = () => {
         </label>
 
         <label>
-          Description:
+          Description
           <textarea
             name="description"
             value={formData.description}
@@ -279,7 +277,7 @@ const CreateRecipe = () => {
           )}
         </label>
 
-        <h3>Ingredients:</h3>
+        <h3>Ingredients</h3>
         {formData.ingredients.map((ingredient, index) => (
           <span key={index} className="add-delete-row">
             <input
@@ -304,7 +302,7 @@ const CreateRecipe = () => {
           </span>
         ))}
 
-        <h3>Instructions:</h3>
+        <h3>Instructions</h3>
         {formData.instructions.map((instruction, index) => (
           <div key={index} className="add-delete-row">
             <input
@@ -330,7 +328,7 @@ const CreateRecipe = () => {
         ))}
 
         <label>
-          Tags:
+          Tags
           <input
             type="text"
             name="tags"
@@ -339,15 +337,9 @@ const CreateRecipe = () => {
           />
         </label>
 
-        {showFlash && <div className="flash-message">{flashMessage}</div>}
+        {/* {showFlash && <div className="flash-message">{flashMessage}</div>} */}
 
         <div className="form-buttons">
-          <button type="button" onClick={saveDraft}>
-            Delete Button
-          </button>
-          <button type="button" onClick={saveDraft}>
-            Save Draft
-          </button>
           <button type="button" onClick={postRecipe}>
             Post Recipe
           </button>

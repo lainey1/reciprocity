@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import reciprocity_banner from "../../../public/reciprocity_banner.png";
-import HamburgerButton from "./HamburgerButton";
+import MobileProfileButton from "./MobileProfileButton";
 import ProfileButton from "./ProfileButton";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import { LoginFormModal, SignupFormModal } from "../AuthenticationForms";
@@ -20,7 +20,7 @@ function Navigation() {
       </Link>
 
       {/*Hamburger Icon for mobile */}
-      <HamburgerButton />
+      <MobileProfileButton />
 
       {/* Search Bar */}
       {/* <div id="search-bar-container">
