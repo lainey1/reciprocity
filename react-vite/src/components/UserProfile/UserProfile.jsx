@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useLocation, useNavigate } from "react-router-dom";
 import { FaEdit } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
-import ManageRecipes from "../ManageRecipes/ManageRecipes";
 import ManageCollections from "../Collections/ManageCollections";
-import EditProfile from "./EditProfile";
+import ManageRecipes from "../ManageRecipes/ManageRecipes";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import EditProfile from "./EditProfile";
 
 import { thunkAuthenticate } from "../../redux/session";
+import { thunkFetchUserProfile } from "../../redux/users";
 
 import reciprocity_logo from "../../../public/reciprocity_logo.png";
 
@@ -18,10 +19,12 @@ function UserProfile() {
   const location = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { userId } = useParams();
 
-  const currentUser = useSelector((state) => state.session.user);
+  const currentUser = useSelector((state) => state.session?.user);
+  const selectedProfile = useSelector((state) => state.users?.[userId]?.user); // Fetch the profile from Redux store
 
-  // Extract the 'section" query parameter to have active sections in the profile
+  // Extract the 'section' query parameter to determine active sections in the profile
   const queryParams = new URLSearchParams(location.search);
   const activeSection = queryParams.get("section") || "profile";
 
@@ -29,48 +32,64 @@ function UserProfile() {
     if (!currentUser) {
       dispatch(thunkAuthenticate()); // Load current user data
     }
-  }, [dispatch, currentUser]);
 
+    if (!selectedProfile && userId) {
+      dispatch(thunkFetchUserProfile(userId)); // Fetch the selected user's profile
+    }
+  }, [dispatch, currentUser, selectedProfile, userId]);
+
+  // Handle loading state
   if (!currentUser) {
     return (
       <img src={reciprocity_logo} alt="Loading..." className="logo-spinner" />
     );
   }
 
+  // Determine if the profile being viewed is the current user's or someone else's
+  const isCurrentUser = parseInt(userId) === currentUser.id;
+  const profile = isCurrentUser ? currentUser : selectedProfile;
+
+  if (!profile) {
+    return <p>Loading profile...</p>;
+  }
+
   return (
     <div id="profile-page">
-      {/* Main Profile Details*/}
+      {/* Main Profile Details */}
       <div id="main-profile">
         <div id="user-profile-pic">
-          <img src={currentUser.profile_image_url} />
+          <img
+            src={profile.profile_image_url || reciprocity_logo}
+            alt={`${profile.first_name}'s profile`}
+          />
         </div>
         <div id="user-info">
-          <h2 className="name">{currentUser.first_name}</h2>
+          <h2 className="name">{profile.first_name}</h2>
           <span className="icon-username">
             <img src={reciprocity_logo} id="reciprocity-icon" />
-            <h3>{currentUser.username}</h3>
+            <h3>{profile.username}</h3>
           </span>
-          <p>{currentUser.bio}</p>
+          <p>{profile.bio}</p>
 
-          {/* user/:userId/edit */}
-          <OpenModalButton
-            buttonText={
-              <span>
-                <FaEdit /> Edit Profile
-              </span>
-            }
-            id="edit-profile-button"
-            modalComponent={<EditProfile user_id={currentUser.id} />}
-          />
+          {isCurrentUser && (
+            <OpenModalButton
+              buttonText={
+                <span>
+                  <FaEdit /> Edit Profile
+                </span>
+              }
+              id="edit-profile-button"
+              modalComponent={<EditProfile user_id={currentUser.id} />}
+            />
+          )}
         </div>
       </div>
 
+      {/* Navigation Menu */}
       <nav className="menu">
         <button
           className={activeSection === "collections" ? "active" : ""}
-          onClick={() =>
-            navigate(`/user/${currentUser.id}?section=collections`)
-          }
+          onClick={() => navigate(`/users/${profile.id}?section=collections`)}
         >
           Collections
         </button>
@@ -78,7 +97,7 @@ function UserProfile() {
         <button
           className={activeSection === "created_recipes" ? "active" : ""}
           onClick={() =>
-            navigate(`/user/${currentUser.id}?section=created_recipes`)
+            navigate(`/users/${profile.id}?section=created_recipes`)
           }
         >
           Created
@@ -88,9 +107,6 @@ function UserProfile() {
       {/* Main Content */}
       <div className="main-content">
         {activeSection === "created_recipes" && <ManageRecipes />}
-      </div>
-
-      <div className="main-content">
         {activeSection === "collections" && <ManageCollections />}
       </div>
     </div>

@@ -344,7 +344,7 @@ const UpdateRecipe = () => {
           </button>
           <button
             type="button"
-            onClick={() => navigate(`/user/${userId}?section=created_recipes`)}
+            onClick={() => navigate(`/users/${userId}?section=created_recipes`)}
           >
             Cancel
           </button>

@@ -195,6 +195,7 @@ def add_recipe():
         new_recipe = Recipe(
             name=payload.get("name"),
             owner_id=current_user.id,
+            owner_username=current_user.username,
             yield_servings=payload.get("yield_servings"),
             prep_time=payload.get("prep_time"),
             cook_time=payload.get("cook_time"),

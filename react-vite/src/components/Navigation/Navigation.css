@@ -46,19 +46,6 @@
   padding: 0 5px;
 }
 
-#nav-links #signup-button {
-  background-color: red;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-#nav-links #signup-button:hover {
-  background-color: darkred;
-}
-
 /* Mobile Button */
 #mobile-profile-button {
   display: none; /* Hidden by default */
@@ -188,4 +175,15 @@
 
 .nav-link:focus {
   outline: 2px solid #000;
+}
+
+/* Small Screen*/
+@media (max-width: 480px) {
+  #mobile-top-banner {
+    display: flex;
+  }
+  #nav-bar {
+    display: flex;
+    flex-direction: column;
+  }
 }

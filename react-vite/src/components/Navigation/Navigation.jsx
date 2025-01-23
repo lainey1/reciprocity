@@ -15,17 +15,22 @@ function Navigation() {
 
   return (
     <nav id="nav-bar">
-      {/* Logo Section */}
-      <Link to="/" className="logo-link">
-        <img src={reciprocity_banner} alt="Reciprocity Logo" id="logo-banner" />
-      </Link>
-
-      {/*Hamburger Icon for mobile */}
-      <MobileProfileButton />
+      <div id="mobile-top-banner">
+        {/* Logo Section */}
+        <Link to="/" className="logo-link">
+          <img
+            src={reciprocity_banner}
+            alt="Reciprocity Logo"
+            id="logo-banner"
+          />
+        </Link>
+      </div>
 
       {/*Search Bar */}
       <div id="search-bar-container">
         <SearchBar />
+        {/*Hamburger Icon for mobile */}
+        <MobileProfileButton />
       </div>
 
       {/* Navigation Links */}

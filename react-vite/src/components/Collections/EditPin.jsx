@@ -29,8 +29,8 @@ function EditPin({ recipeId, recipeName, recipeImage }) {
   );
 
   const [selectedCollection, setSelectedCollection] = useState(null);
-  const [warning, setWarning] = useState(null); // State for warning message
-  const [successMessage, setSuccessMessage] = useState(null); // State for success message popup
+  const [warning, setWarning] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
   const initialFetchCompleted = useRef(false);
 
   useEffect(() => {
@@ -56,7 +56,7 @@ function EditPin({ recipeId, recipeName, recipeImage }) {
 
   const handleCollectionChange = (collectionId) => {
     setSelectedCollection(collectionId);
-    setWarning(null); // Reset warning when user selects a new collection
+    setWarning(null);
   };
 
   const handleSaveRecipe = async () => {
@@ -65,9 +65,18 @@ function EditPin({ recipeId, recipeName, recipeImage }) {
       return;
     }
 
+    // Find the selected collection by ID
     const collection = userCollections.find(
-      (coll) => coll.id === selectedCollection
+      (coll) => Number(coll.id) === Number(selectedCollection) // Ensure both are numbers
     );
+
+    // If the collection is not found, handle gracefully
+    if (!collection) {
+      alert("Selected collection not found. Please try again.");
+      return;
+    }
+
+    // Check if the recipe already exists in the collection
     const recipeExists = collection?.recipes?.some((r) => r.id === recipeId);
 
     if (recipeExists) {
@@ -75,40 +84,31 @@ function EditPin({ recipeId, recipeName, recipeImage }) {
       return;
     }
 
+    // Save recipe to collection
     await dispatch(addRecipe(selectedCollection, recipeId));
     dispatch(fetchCollectionsByOwner(userId));
 
-    const collectionName = collection?.name;
-
-    if (collectionName) {
-      setSuccessMessage(`Added to "${collectionName}" collection!`);
-    } else {
-      setSuccessMessage("Recipe saved successfully!");
-    }
-
-    setTimeout(() => {
-      setSuccessMessage(null);
-      closeModal();
-    }, 3000);
+    // Set success message
+    setSuccessMessage(`Added to "${collection.name}" collection!`);
   };
 
   const handleRemoveRecipe = async () => {
     await dispatch(removeRecipe(currentCollection.id, recipeId));
     dispatch(fetchCollectionsByOwner(userId));
 
-    const collectionName = currentCollection.name;
-
-    if (collectionName) {
-      setSuccessMessage(`Removed from "${collectionName}" collection!`);
-    } else {
-      setSuccessMessage("Recipe removed successfully!");
-    }
-
-    setTimeout(() => {
-      setSuccessMessage(null);
-      closeModal();
-    }, 3000);
+    setSuccessMessage(`Removed from "${currentCollection.name}" collection!`);
   };
+
+  useEffect(() => {
+    if (successMessage) {
+      const timer = setTimeout(() => {
+        setSuccessMessage(null);
+        closeModal();
+      }, 3000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [successMessage, closeModal]);
 
   return (
     <div className="page-form-container">
@@ -139,8 +139,12 @@ function EditPin({ recipeId, recipeName, recipeImage }) {
           {warning && <p className="warning">{warning}</p>}
         </div>
 
-        <button onClick={handleSaveRecipe}>Add to Collection</button>
-        <button onClick={handleRemoveRecipe}>Remove From Collection</button>
+        <button type="button" onClick={handleSaveRecipe}>
+          Add to Collection
+        </button>
+        <button type="button" onClick={handleRemoveRecipe}>
+          Remove From Collection
+        </button>
         <OpenModalButton
           buttonText="Create Collection"
           id="create-collection"

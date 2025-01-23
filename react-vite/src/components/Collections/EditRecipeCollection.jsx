@@ -89,7 +89,7 @@ function EditRecipeCollection({ recipeId, recipeName, recipeImage }) {
       const timer = setTimeout(() => {
         setSuccessMessage(null);
         closeModal();
-      }, 1000);
+      }, 3000);
 
       return () => clearTimeout(timer); // Cleanup timeout on component unmount or re-render
     }

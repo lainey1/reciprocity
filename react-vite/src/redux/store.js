@@ -9,12 +9,14 @@ import sessionReducer from "./session";
 import recipesReducer from "./recipes";
 import collectionsReducer from "./collections";
 import searchReducer from "./search";
+import usersReducer from "./users";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   recipes: recipesReducer,
   collections: collectionsReducer,
   search: searchReducer,
+  users: usersReducer,
 });
 
 let enhancer;

@@ -4,7 +4,7 @@ import no_image_available from "../../../public/no_image_available.png";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
 import EditRecipeCollection from "../Collections/EditRecipeCollection";
 
-import "./SearchResults.css";
+import "./Search.css";
 
 const SearchResults = () => {
   const results = useSelector((state) => state.search?.results); // Assume search results are stored in Redux state
@@ -13,12 +13,11 @@ const SearchResults = () => {
 
   return (
     <div id="search-results-page-container">
-      <h2>Search Results</h2>
-      <div className="all-recipes-grid">
+      <h3>Recipes</h3>
+      <div className="search-grid">
         {/* Recipes */}
         {recipes.length > 0 && (
-          <div>
-            <h3>Recipes</h3>
+          <div className="search-section">
             {recipes.map((recipe) => (
               <div key={recipe.id} className="image-tile">
                 <Link to={`/recipes/${recipe.id}`} className="all-recipes-link">
@@ -52,11 +51,12 @@ const SearchResults = () => {
             ))}
           </div>
         )}
-
+      </div>
+      <h3>Collections</h3>
+      <div className="search-grid">
         {/* Collections */}
         {collections.length > 0 && (
-          <div>
-            <h3>Collections</h3>
+          <div className="search-section">
             {collections.map((collection) => (
               <div key={collection.id} className="image-tile">
                 <Link
@@ -64,13 +64,18 @@ const SearchResults = () => {
                   className="all-recipes-link"
                 >
                   <div className="image-tile-container">
-                    {collection.image ? (
+                    {collection.collection_image.length > 0 ? (
                       <img
-                        src={collection.image}
-                        alt={`${collection.name} image`}
+                        src={collection.collection_image[0]?.image_url} // Access the first image in the array
+                        alt={collection.name}
+                        className="collection-image"
                       />
                     ) : (
-                      <img src={no_image_available} alt="no image available" />
+                      <img
+                        src={no_image_available}
+                        alt="no image available"
+                        className="collection-image"
+                      />
                     )}
                   </div>
                   <div className="recipe-highlight">
@@ -85,17 +90,18 @@ const SearchResults = () => {
             ))}
           </div>
         )}
-
+      </div>
+      <h3>Users</h3>
+      <div className="search-grid">
         {/* Users */}
         {users.length > 0 && (
-          <div>
-            <h3>Users</h3>
+          <div className="search-section">
             {users.map((user) => (
               <div key={user.id} className="image-tile">
                 <Link to={`/users/${user.id}`} className="all-recipes-link">
                   <div className="image-tile-container">
                     <img
-                      src={user.profile_picture || no_image_available}
+                      src={user.profile_image_url || no_image_available}
                       alt={`${user.username} profile`}
                     />
                   </div>

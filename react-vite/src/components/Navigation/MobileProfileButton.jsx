@@ -60,7 +60,9 @@ function MobileProfileButton() {
             {user ? (
               <>
                 <li
-                  onClick={() => navigate("/user/:user_id?section=collections")}
+                  onClick={() =>
+                    navigate(`/users/${user.id}?section=collections`)
+                  }
                 >
                   Profile & Recipes
                 </li>

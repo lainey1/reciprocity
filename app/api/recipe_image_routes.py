@@ -94,6 +94,7 @@ def add_recipe_image(recipe_id):
             image_url=payload.get("image_url"),
             recipe_id=recipe_id,
             user_id=current_user.id,
+            owner_username=current_user.username,
             caption=payload.get("caption"),
             is_preview=payload.get("is_preview"),
             uploaded_at=now,  # Pass datetime object directly

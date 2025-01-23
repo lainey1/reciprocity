@@ -90,29 +90,8 @@ def get_collection_by_id(id):
                 'message': f'Collection with ID {id} not found.'
             }), 404
 
-        # Check if the current user is the collections's owner'
-        if collection.user_id != current_user.id :
-            return jsonify({'message': 'You are not authorized to view this collection. Please log in as the owner.'}), 403
-
         # Convert collection to dictionary
         collection_data = collection.to_dict()
-
-        # Fetch owner information
-        owner = User.query.get(collection.user_id)
-        if owner:
-            collection_data['owner'] = owner.username
-
-        # Grab its collection image
-            collection_image = CollectionImage.query.filter_by(collection_id=collection.id).first()
-            collection_image_url = collection_image.image_url if collection_image else None
-
-            # Add collection image to recipe's dictionary
-            collection_data['collection_image'] = collection_image_url
-
-        # Fetch recipes in the collection
-        collection_recipes = CollectionRecipe.query.filter_by(collection_id=id).all()
-        recipes = [Recipe.query.get(cr.recipe_id).to_dict() for cr in collection_recipes]
-        collection_data['recipes'] = recipes
 
         # Return the collection data as JSON
         return jsonify({
@@ -216,6 +195,7 @@ def add_collection():
         new_collection = Collection(
             name=payload.get("name"),
             user_id=current_user.id,
+            owner_username=current_user.username,
             description=payload.get("description"),
             created_at=now,  # Pass datetime object directly
             updated_at=now   # Pass datetime object directly
@@ -357,6 +337,8 @@ def add_recipe_to_collection(collection_id):
             collection_id=collection_id,
             recipe_id=recipe_id,
             owner_id=current_user.id,
+            owner_username=current_user.username
+
         )
         print("NEW COLLECTION RECIPE ======>",new_collection_recipe)
         db.session.add(new_collection_recipe)
