@@ -14,6 +14,7 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.String(100), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    owner_username = db.Column(db.Text, db.ForeignKey(add_prefix_for_prod('users.username')), nullable=False)
     yield_servings = db.Column(db.Integer, nullable=False)
     prep_time = db.Column(db.Integer, nullable=True)
     cook_time = db.Column(db.Integer, nullable=True)
@@ -65,6 +66,7 @@ class Recipe(db.Model):
             'id': self.id,
             'name': self.name,
             'owner_id': self.owner_id,
+            "owner_username": self.owner_username,
             'yield_servings': self.yield_servings,
             'prep_time': self.prep_time,
             'cook_time': self.cook_time,

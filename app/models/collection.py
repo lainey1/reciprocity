@@ -13,6 +13,7 @@ class Collection(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    owner_username = db.Column(db.String, db.ForeignKey(add_prefix_for_prod('users.username')), nullable=False)
     description = db.Column(db.String(200), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
@@ -27,6 +28,7 @@ class Collection(db.Model):
             'id': self.id,
             'name': self.name,
             'user_id': self.user_id,
+            'owner_username': self.owner_username,
             'description': self.description,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),

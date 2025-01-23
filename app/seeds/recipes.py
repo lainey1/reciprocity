@@ -56,6 +56,7 @@ def seed_recipes():
         tags="vegetarian, healthy, French, classic",
         # tags=["vegetarian", "healthy", "French", "classic"],
         owner_id=1,
+        owner_username="little_chef",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -84,6 +85,8 @@ def seed_recipes():
         tags="vegetarian, stir-fry, healthy",
         # tags=["vegetarian", "stir-fry", "healthy"],
         owner_id=2,
+        owner_username="i_am_linguini",
+
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -114,7 +117,8 @@ def seed_recipes():
         ]),
         tags="pasta, creamy, chicken, Italian",
         # tags=["pasta", "creamy", "chicken", "Italian"],
-        owner_id=3,
+                owner_id=3,
+        owner_username="anyone_can_cook",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -146,7 +150,8 @@ def seed_recipes():
         ]),
         tags="breakfast, healthy, avocado, easy",
         # tags=["breakfast", "healthy", "avocado", "easy"],
-        owner_id=4,
+                owner_id=4,
+        owner_username="lainey",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -176,7 +181,8 @@ def seed_recipes():
         ]),
         tags="burger, gourmet, American",
         # tags=["vegetarian", "healthy", "French", "classic"],
-        owner_id=3,
+                owner_id=3,
+        owner_username="anyone_can_cook",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -209,7 +215,8 @@ def seed_recipes():
             {"instruction": "Serve with rice."}
         ]),
         tags="Filipino, savory, chicken",
-        owner_id=4,
+                owner_id=4,
+        owner_username="lainey",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -238,7 +245,8 @@ def seed_recipes():
             {"instruction": "Sprinkle with chocolate chips and serve."}
         ]),
         tags="dessert, Italian, sweet",
-        owner_id=4,
+                owner_id=4,
+        owner_username="lainey",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -272,7 +280,8 @@ def seed_recipes():
             {"instruction": "Season with salt to taste and serve with rice."}
         ]),
         tags="Filipino, soup, savory, tangy",
-        owner_id=4,
+                owner_id=4,
+        owner_username="lainey",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -299,7 +308,8 @@ def seed_recipes():
             {"instruction": "Sprinkle with brown sugar and serve."}
         ]),
         tags="Filipino, snack, sweet, fried",
-        owner_id=4,
+                owner_id=4,
+        owner_username="lainey",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -332,7 +342,8 @@ def seed_recipes():
             {"instruction": "Serve with cheese, sour cream, and tortilla chips."}
         ]),
         tags="soup, taco, savory, hearty",
-        owner_id=4,
+                owner_id=4,
+        owner_username="lainey",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -374,7 +385,8 @@ def seed_recipes():
         {"instruction": "Serve hot with crusty bread or mashed potatoes."}
     ]),
     tags="chicken, French, classic, comfort food",
-    owner_id=1,
+            owner_id=1,
+        owner_username="little_chef",
 
     created_at=created_at_time,
     updated_at=created_at_time,
@@ -411,7 +423,8 @@ def seed_recipes():
             {"instruction": "Serve warm or at room temperature."}
         ]),
         tags="bacon, cheese, French, brunch, savory",
-        owner_id=1,
+                owner_id=1,
+        owner_username="little_chef",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -453,7 +466,8 @@ def seed_recipes():
             {"instruction": "Serve hot."}
         ]),
         tags="soup, French, comfort food, cheese, savory",
-        owner_id=1,
+                owner_id=1,
+        owner_username="little_chef",
         created_at=created_at_time,
         updated_at=created_at_time,
     )
@@ -488,7 +502,8 @@ def seed_recipes():
             {"instruction": "Serve warm or at room temperature."}
         ]),
         tags="dessert, French, tea time, sweet, lemon",
-        owner_id=1,
+                owner_id=1,
+        owner_username="little_chef",
 
         created_at=created_at_time,
         updated_at=created_at_time,
@@ -534,7 +549,8 @@ def seed_recipes():
             {"instruction": "Serve hot, and enjoy!"}
         ]),
         tags="beef, gourmet, British, special occasion, pastry",
-        owner_id=1,
+                owner_id=1,
+        owner_username="little_chef",
         created_at=created_at_time,
         updated_at=created_at_time,
     )

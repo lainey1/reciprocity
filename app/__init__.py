@@ -13,6 +13,8 @@ from .api.recipe_routes import recipe_routes
 from .api.collection_routes import collection_routes
 from .api.recipe_image_routes import recipe_images_routes
 from .api.collection_image_routes import collection_images_routes
+from .api.search_routes import search_routes
+
 from .seeds import seed_commands
 from .config import Config
 
@@ -38,6 +40,7 @@ app.register_blueprint(recipe_routes, url_prefix='/api/recipes')
 app.register_blueprint(collection_routes, url_prefix='/api/collections')
 app.register_blueprint(recipe_images_routes, url_prefix='/api/recipe_images')
 app.register_blueprint(collection_images_routes, url_prefix='/api/collection_images')
+app.register_blueprint(search_routes, url_prefix='/api/search')
 
 db.init_app(app)
 

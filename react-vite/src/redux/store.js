@@ -8,11 +8,13 @@ import thunk from "redux-thunk";
 import sessionReducer from "./session";
 import recipesReducer from "./recipes";
 import collectionsReducer from "./collections";
+import searchReducer from "./search";
 
 const rootReducer = combineReducers({
   session: sessionReducer,
   recipes: recipesReducer,
   collections: collectionsReducer,
+  search: searchReducer,
 });
 
 let enhancer;

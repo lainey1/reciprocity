@@ -1,21 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./Layout";
-import LandingPage from "../components/LandingPage";
 import About from "../components/About/About";
 import {
   LoginFormModal,
   SignupFormModal,
 } from "../components/AuthenticationForms";
-import AllRecipes from "../components/ManageRecipes/AllRecipes.jsx";
-import ReadRecipe from "../components/ManageRecipes/ReadRecipe";
-import ManageRecipes from "../components/ManageRecipes/ManageRecipes";
-import CreateRecipe from "../components/ManageRecipes/CreateRecipe";
-import UpdateRecipe from "../components/ManageRecipes/UpdateRecipe";
-import UserProfile from "../components/UserProfile/UserProfile";
-import EditProfile from "../components/UserProfile/EditProfile";
 import CreateCollection from "../components/Collections/CreateCollection";
 import EditCollection from "../components/Collections/EditCollection";
 import ViewCollection from "../components/Collections/ViewCollection.jsx";
+import LandingPage from "../components/LandingPage";
+import AllRecipes from "../components/ManageRecipes/AllRecipes.jsx";
+import CreateRecipe from "../components/ManageRecipes/CreateRecipe";
+import ManageRecipes from "../components/ManageRecipes/ManageRecipes";
+import ReadRecipe from "../components/ManageRecipes/ReadRecipe";
+import UpdateRecipe from "../components/ManageRecipes/UpdateRecipe";
+import SearchResults from "../components/Search/SearchResults.jsx";
+import EditProfile from "../components/UserProfile/EditProfile";
+import UserProfile from "../components/UserProfile/UserProfile";
+import Layout from "./Layout";
 
 export const router = createBrowserRouter([
   {
@@ -58,11 +59,11 @@ export const router = createBrowserRouter([
         element: <UpdateRecipe />,
       },
       {
-        path: "/user/:userId",
+        path: "/users/:userId",
         element: <UserProfile />,
       },
       {
-        path: "/user/:user_id/edit",
+        path: "/users/:user_id/edit",
         element: <EditProfile />,
       },
       {
@@ -76,6 +77,10 @@ export const router = createBrowserRouter([
       {
         path: "/collections/:collection_id/",
         element: <ViewCollection />,
+      },
+      {
+        path: "/search",
+        element: <SearchResults />,
       },
     ],
   },

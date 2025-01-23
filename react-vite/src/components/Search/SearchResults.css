@@ -1,0 +1,127 @@
+#search-results-page-container {
+  max-width: 100vw;
+  box-sizing: border-box;
+  margin: 15px;
+}
+
+.all-recipes-grid {
+  margin-top: 25px;
+  column-count: 6;
+  column-gap: 15px;
+}
+
+.image-tile {
+  position: relative;
+  min-width: 200px;
+  background-color: #f9f9f9;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.image-tile:hover .image-tile-action-buttons {
+  opacity: 1;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  z-index: 500;
+}
+
+.image-tile-name {
+  font-weight: 500;
+  font-size: 1.25em;
+  text-align: left;
+}
+
+.image-tile-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.image-tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.image-tile-action-buttons {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  display: flex;
+  gap: 8px;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.image-tile-action-buttons > button {
+  font-size: 1.25em;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.image-tile-action-buttons > button:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.recipe-highlight {
+  padding: 10px;
+  text-align: center;
+}
+
+.recipe-description {
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #555;
+  margin-top: 10px;
+  font-size: 1rem;
+  text-align: left;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.all-recipes-link {
+  text-decoration: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 1400px) {
+  .all-recipes-grid {
+    column-count: 5;
+  }
+}
+@media (max-width: 1300px) {
+  .all-recipes-grid {
+    column-count: 4;
+  }
+}
+@media (max-width: 1024px) {
+  .all-recipes-grid {
+    column-count: 3;
+  }
+}
+@media (max-width: 768px) {
+  .all-recipes-grid {
+    column-count: 2;
+  }
+}
+@media (max-width: 480px) {
+  .all-recipes-grid {
+    column-count: 1;
+  }
+}
