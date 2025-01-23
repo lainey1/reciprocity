@@ -21,20 +21,32 @@ def search():
             }), 400
 
 
-        # Search recipes by name
+        # Split the query string into individual keywords
+        keywords = query.split()
+
+        # Build a filter for partial matches on any of the fields
         recipe_results = Recipe.query.filter(
-            (Recipe.name.ilike(f"%{query}%")) |
-            (Recipe.cuisine.ilike(f"%{query}%")) |
-            (Recipe.tags.ilike(f"%{query}%"))
-            # (Recipe.owner_username.ilike(f"%{query}%"))
-            ).all()
-        # Search collections by name
+            db.or_(
+                *[Recipe.name.ilike(f"%{keyword}%") for keyword in keywords] +
+                [Recipe.cuisine.ilike(f"%{keyword}%") for keyword in keywords] +
+                [Recipe.tags.ilike(f"%{keyword}%") for keyword in keywords] +
+                [Recipe.owner_username.ilike(f"%{keyword}%") for keyword in keywords]
+            )
+        ).all()
+
+        # Search collections by name or owner's username
         collection_results = Collection.query.filter(
-            (Collection.name.ilike(f"%{query}%")) |
-            (Collection.owner_username.ilike(f"%{query}"))
-            ).all()
+            db.or_(
+                *[Collection.name.ilike(f"%{keyword}%") for keyword in keywords] +
+                [Collection.owner_username.ilike(f"%{keyword}%") for keyword in keywords]
+            )
+        ).all()
+
         # Search users by username
-        user_results = User.query.filter(User.username.ilike(f"%{query}")).all()
+        user_results = User.query.filter(
+            db.or_(*[User.username.ilike(f"%{keyword}%") for keyword in keywords])
+        ).all()
+
 
         # Combine the results into a single response
         results = {
