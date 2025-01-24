@@ -97,6 +97,7 @@ def sign_up():
             name="FamilyRecipes",
             description="A collection of family recipes and memories.",
             user_id=user.id,
+            owner_username=user.username
         )
 
         db.session.add(family_collection)

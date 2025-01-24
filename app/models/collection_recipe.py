@@ -14,6 +14,7 @@ class CollectionRecipe(db.Model):
     collection_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('collections.id')), nullable=False)
     recipe_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('recipes.id')), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('users.id')), nullable=False)
+    owner_username = db.Column(db.String, db.ForeignKey(add_prefix_for_prod('users.username')), nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), nullable=False)
     updated_at = db.Column(db.DateTime, default=datetime.now(timezone.utc), onupdate=datetime.now(timezone.utc), nullable=False)
 
@@ -25,6 +26,7 @@ class CollectionRecipe(db.Model):
             'collection_id': self.collection_id,
             'recipe_id': self.recipe_id,
             'owner_id': self.owner_id,
+            'owner_username': self.owner_username,
             'created_at': self.created_at.isoformat(),
             'updated_at': self.updated_at.isoformat(),
         }

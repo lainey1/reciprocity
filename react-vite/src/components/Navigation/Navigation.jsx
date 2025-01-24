@@ -2,10 +2,11 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 import reciprocity_banner from "../../../public/reciprocity_banner.png";
-import MobileProfileButton from "./MobileProfileButton";
-import ProfileButton from "./ProfileButton";
-import OpenModalMenuItem from "./OpenModalMenuItem";
 import { LoginFormModal, SignupFormModal } from "../AuthenticationForms";
+import MobileProfileButton from "./MobileProfileButton";
+import OpenModalMenuItem from "./OpenModalMenuItem";
+import ProfileButton from "./ProfileButton";
+import SearchBar from "../Search/SearchBar";
 
 import "./Navigation.css";
 
@@ -14,18 +15,23 @@ function Navigation() {
 
   return (
     <nav id="nav-bar">
-      {/* Logo Section */}
-      <Link to="/" className="logo-link">
-        <img src={reciprocity_banner} alt="Reciprocity Logo" id="logo-banner" />
-      </Link>
+      <div id="mobile-top-banner">
+        {/* Logo Section */}
+        <Link to="/" className="logo-link">
+          <img
+            src={reciprocity_banner}
+            alt="Reciprocity Logo"
+            id="logo-banner"
+          />
+        </Link>
+      </div>
 
-      {/*Hamburger Icon for mobile */}
-      <MobileProfileButton />
-
-      {/* Search Bar */}
-      {/* <div id="search-bar-container">
+      {/*Search Bar */}
+      <div id="search-bar-container">
         <SearchBar />
-      </div> */}
+        {/*Hamburger Icon for mobile */}
+        <MobileProfileButton />
+      </div>
 
       {/* Navigation Links */}
       <div id="nav-links">

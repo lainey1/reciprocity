@@ -332,7 +332,7 @@ const CreateRecipe = () => {
           <button
             type="button"
             onClick={() =>
-              navigate(`/user/${currentUser.id}?section=created_recipes`)
+              navigate(`/users/${currentUser.id}?section=created_recipes`)
             }
           >
             Cancel

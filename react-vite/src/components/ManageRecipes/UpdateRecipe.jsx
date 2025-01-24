@@ -14,7 +14,7 @@ const UpdateRecipe = () => {
 
   // Selector
   const recipe = useSelector((state) => state.recipes?.recipes[recipe_id]);
-  const userId = useSelector((state) => state.session?.user);
+  // const userId = useSelector((state) => state.session?.user);
 
   // set up errors list
   const [errors, setErrors] = useState({});
@@ -344,7 +344,7 @@ const UpdateRecipe = () => {
           </button>
           <button
             type="button"
-            onClick={() => navigate(`/user/${userId}?section=created_recipes`)}
+            onClick={() => navigate(`/recipes/${recipe_id}`)}
           >
             Cancel
           </button>

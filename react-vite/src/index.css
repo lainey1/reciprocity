@@ -45,6 +45,10 @@ body {
   height: 50px;
 }
 
+li:hover {
+  cursor: pointer;
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -170,7 +174,8 @@ form button:focus {
     column-gap: 15px;
   }
 
-  #manage-collection-buttons {
+  #manage-collection-buttons,
+  #manage-recipe-buttons {
     display: flex;
     justify-content: center;
   }
@@ -186,7 +191,7 @@ form button:focus {
 .image-tile {
   position: relative;
 
-  min-width: 200px;
+  min-width: 175px;
   background-color: #f9f9f9;
   padding: 15px;
   border: 1px solid #ddd;
@@ -262,6 +267,17 @@ form button:focus {
 }
 
 @media (max-width: 768px) {
+  .form-page-container {
+    width: 95%;
+  }
+
+  #image-tile-action-buttons {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
   .form-page-container {
     width: 95%;
   }

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { FaEdit } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import no_image_available from "../../../public/no_image_available.png";
 import { fetchCollectionById } from "../../redux/collections";
 import DeleteRecipeModal from "../ManageRecipes/DeleteRecipeModal";
+import EditPin from "../Collections/EditPin";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import EditPin from "./EditPin";
 
 const ViewCollection = () => {
   const dispatch = useDispatch();
@@ -21,34 +21,31 @@ const ViewCollection = () => {
     (state) => state.collections?.currentCollection
   );
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [recipeToDelete, setRecipeToDelete] = useState(null);
-
   useEffect(() => {
     dispatch(fetchCollectionById(collection_id));
   }, [dispatch, collection_id]);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-    setRecipeToDelete(null);
-  };
+  if (!currentCollection) {
+    return <p>Loading collection...</p>;
+  }
 
   return (
     <div className="page-container">
       <h2>{currentCollection?.name}</h2>
+      <p>{currentCollection?.description}</p>
       <div className="images-grid">
         {/* Conditional rendering for empty collections */}
-        {!collectionRecipes || collectionRecipes.length === 0 ? (
+        {collectionRecipes?.length === 0 ? (
           <div className="image-tile">
             <p>There aren’t any recipes in this collection yet...</p>
           </div>
         ) : (
-          collectionRecipes.map((recipe) => (
+          collectionRecipes?.map((recipe) => (
             <div key={recipe.id} className="image-tile">
               <Link to={`/recipes/${recipe.id}`} className="recipe-link">
                 <div className="image-tile-container">
                   {recipe?.preview_image ? (
-                    <img src={recipe.preview_image} />
+                    <img src={recipe?.preview_image} alt={recipe.name} />
                   ) : (
                     <img src={no_image_available} alt="no image available" />
                   )}
@@ -56,6 +53,7 @@ const ViewCollection = () => {
               </Link>
 
               <div>
+                {/* Edit/Delete buttons only visible for the current user's recipes */}
                 {currentUser?.id === recipe.owner_id ? (
                   <div className="image-tile-action-buttons">
                     <OpenModalButton
@@ -79,7 +77,6 @@ const ViewCollection = () => {
                   <div className="image-tile-action-buttons">
                     <OpenModalButton
                       buttonText="Edit Pin"
-                      id="edit-button"
                       modalComponent={
                         <EditPin
                           recipeId={recipe.id}
@@ -98,14 +95,6 @@ const ViewCollection = () => {
           ))
         )}
       </div>
-
-      {/* Conditional Modal Rendering */}
-      {isModalOpen && (
-        <DeleteRecipeModal
-          recipeId={recipeToDelete}
-          onClose={handleCloseModal}
-        />
-      )}
     </div>
   );
 };

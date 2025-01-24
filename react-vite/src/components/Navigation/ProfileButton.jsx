@@ -49,14 +49,14 @@ function ProfileButton() {
     <>
       <div className="profile-button-container">
         <button
-          onClick={() => navigate("/user/:user_id?section=collections")}
+          onClick={() => navigate(`/users/${user.id}?section=collections`)}
           id="profile-dropdown-button"
         >
           <img
             src={user.profile_image_url || logo}
             alt={`${user.first_name}'s profile`}
             className="profile-image"
-            onClick={() => navigate("/user/:user_id?section=collections")}
+            onClick={() => navigate("/users/:user_id?section=collections")}
           />
         </button>
         <button onClick={toggleMenu} id="profile-dropdown-button">
@@ -70,7 +70,9 @@ function ProfileButton() {
               <>
                 <li
                   className="profile-details no-click"
-                  onClick={() => navigate("/user/:user_id?section=collections")}
+                  onClick={() =>
+                    navigate(`/users/${user.id}?section=collections`)
+                  }
                 >
                   <img
                     src={user.profile_image_url || logo}
@@ -85,7 +87,9 @@ function ProfileButton() {
                 </li>
                 <hr className="menu-separator" /> {/* Horizontal line */}
                 <li
-                  onClick={() => navigate("/user/:user_id?section=collections")}
+                  onClick={() =>
+                    navigate(`/users/${user.id}?section=collections`)
+                  }
                 >
                   Profile & Recipes
                 </li>

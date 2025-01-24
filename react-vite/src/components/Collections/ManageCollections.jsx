@@ -28,7 +28,7 @@ const ManageCollections = () => {
   }, [dispatch, userId]);
 
   return (
-    <div className="page-container">
+    <div>
       {/* Create New Collection */}
       <div id="manage-collection-buttons">
         <div id="manage-collection-buttons">
