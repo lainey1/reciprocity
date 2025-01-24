@@ -52,7 +52,7 @@ const SearchResults = () => {
           </div>
         )}
       </div>
-      <h3>Collections</h3>
+      {/* <h3>Collections</h3> */}
       <div className="search-grid">
         {/* Collections */}
         {collections.length > 0 && (
@@ -91,7 +91,7 @@ const SearchResults = () => {
           </div>
         )}
       </div>
-      <h3>Users</h3>
+      {/* <h3>Users</h3> */}
       <div className="search-grid">
         {/* Users */}
         {users.length > 0 && (
