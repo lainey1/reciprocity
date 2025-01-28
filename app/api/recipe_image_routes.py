@@ -4,8 +4,8 @@ from flask import Blueprint, current_app, json, jsonify, request
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 
-# from app.forms import ImageForm
 from app.models import Recipe, RecipeImage, db
+from app.utils.aws_s3 import upload_file_to_s3
 
 recipe_images_routes = Blueprint('recipe_images', __name__)
 
@@ -56,6 +56,56 @@ def get_recipe_images(recipe_id):
         "recipe_id": recipe_id,
         "recipe_images": [image.to_dict() for image in recipe_images]  # Include image data (with ID)
     }), 200
+
+
+
+@recipe_images_routes.route('/upload', methods=['POST'])
+@login_required
+def upload_recipe_image():
+    """
+    Endpoint to upload a recipe image to S3 and save the image URL in the database.
+    """
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
+
+    file = request.files['file']
+    if not file:
+        return jsonify({'error': 'No file selected'}), 400
+
+    # Upload to S3 and get the file URL
+    s3_result = upload_file_to_s3(file, public=True)
+    if not s3_result:
+        return jsonify({"error": "Failed to upload"}), 500
+
+    image_url = s3_result  # URL returned from S3 upload
+
+    # Now, save the image URL in the database
+    try:
+        new_recipe_image = RecipeImage(
+            image_url=image_url,
+            recipe_id=request.form.get('recipe_id'),  # Assuming you pass recipe ID
+            user_id=current_user.id,
+            uploaded_at=datetime.now(timezone.utc)
+        )
+
+        db.session.add(new_recipe_image)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Recipe image uploaded successfully!",
+            "image_url": image_url,
+            "recipe_image": new_recipe_image.to_dict()
+        }), 201
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+    try:
+        # Your file processing logic
+        uploaded_urls = ["https://www.julieseatsandtreats.com/wp-content/uploads/2015/10/Sunshine-Fruit-Salad-Logo.jpg", "https://www.julieseatsandtreats.com/wp-content/uploads/2015/10/Sunshine-Fruit-Salad.jpg"]  # Replace with actual URLs
+        return jsonify({"urls": uploaded_urls}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
 
 
 @recipe_images_routes.route('/recipe/<int:recipe_id>', methods=['POST'])

@@ -1,11 +1,12 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { MdOutlineAddAPhoto } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
-import logo from "../../../public/reciprocity_logo.png";
-import { MdOutlineAddAPhoto } from "react-icons/md";
 import noImage from "../../../public/no_image_available.png";
-
+import logo from "../../../public/reciprocity_logo.png";
+import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import ImageUpload from "./ImageUpload";
 import "./ReadRecipe.css";
 
 const RecipeDetails = () => {
@@ -101,6 +102,21 @@ const RecipeDetails = () => {
                     </button>
                   </div>
                 </div>
+
+                {currentUser.id == recipe.owner_id && (
+                  <div>
+                    <OpenModalButton
+                      buttonText={
+                        <>
+                          <MdOutlineAddAPhoto className="add-photo-icon" /> Add
+                          Photo
+                        </>
+                      }
+                      id="delete-button"
+                      modalComponent={<ImageUpload recipe_id={recipe.id} />}
+                    />
+                  </div>
+                )}
 
                 <div className="recipe-highlights">
                   <p>

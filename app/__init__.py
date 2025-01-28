@@ -8,8 +8,6 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 
-from app.utils.aws_s3 import upload_file_to_s3  # import utility function
-
 from .api.auth_routes import auth_routes
 from .api.collection_image_routes import collection_images_routes
 from .api.collection_routes import collection_routes
@@ -49,24 +47,6 @@ app.register_blueprint(search_routes, url_prefix='/api/search')
 db.init_app(app) # Connect Flask app with SQLAlchemy db
 Migrate(app, db) # Integrate Alembic with Flask
 CORS(app) # Application Security
-
-# Use AWS utility function
-@app.route('/upload', methods='POST')
-def upload_file():
-    if 'file' not in request.files:
-        return jsonify({"error": "No file part"}), 400
-
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No file selected'}), 400
-
-
-    # Upload file to S3
-    s3_result = upload_file_to_s3(file, public=True)
-    if not s3_result:
-        return jsonify({"error": "Failed to upload"}), 500
-
-    return jsonify({"url": s3_result}), 200
 
 # Make sure that in production any
 # request made over http is redirected to https.
