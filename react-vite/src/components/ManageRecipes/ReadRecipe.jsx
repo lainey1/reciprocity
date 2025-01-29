@@ -103,7 +103,7 @@ const RecipeDetails = () => {
                   </div>
                 </div>
 
-                {currentUser.id == recipe.owner_id && (
+                {currentUser && currentUser.id == recipe.owner_id && (
                   <div>
                     <OpenModalButton
                       buttonText={

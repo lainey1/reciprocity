@@ -104,7 +104,6 @@ def handle_global_exception(e):
     }), 500
 
 
-
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')

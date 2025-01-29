@@ -1,20 +1,22 @@
 import { useState } from "react";
 
 const ImageUpload = ({ recipeId, onImageUpload }) => {
-  const [files, setFiles] = useState(null);
+  const [images, setImages] = useState(null);
+  const [imageLoading, setImageLoading] = useState(false);
   const [uploadResults, setUploadResults] = useState([]); // Initialize as empty array
   const [selectedPreview, setSelectedPreview] = useState(null);
 
   const handleFileChange = (e) => {
-    setFiles([...e.target.files]);
+    setImages([...e.target.files]);
   };
 
   const handleUpload = async () => {
-    if (files.length === 0) return alert("Please select files to upload!");
+    if (images.length === 0) return alert("Please select files to upload!");
 
     const formData = new FormData();
-    files.forEach((file) => formData.append("file", file));
+    images.forEach((file) => formData.append("file", file));
     formData.append("recipe_id", recipeId); // Pass the recipe ID for association
+    setImageLoading(true);
 
     try {
       const response = await fetch(`/api/recipe_images/upload`, {
@@ -41,11 +43,17 @@ const ImageUpload = ({ recipeId, onImageUpload }) => {
   };
 
   return (
-    <form>
-      <input type="file" multiple onChange={handleFileChange} />
+    <form encType="multipart/form-data">
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleFileChange}
+      />
       <button type="button" onClick={handleUpload}>
         Upload
       </button>
+      {imageLoading && <p>Loading...</p>}
 
       {uploadResults.length > 0 && (
         <div>
