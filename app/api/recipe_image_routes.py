@@ -87,50 +87,62 @@ def upload_image():
 @login_required
 def upload_recipe_image():
     """
-    Endpoint to upload a recipe image to S3 and save the image URL in the database.
+    Endpoint to upload one or multiple recipe images to S3 and save the image URLs in the database.
     """
     if 'file' not in request.files:
         return jsonify({"error": "No file part"}), 400
 
-    file = request.files['file']
-    if not file:
-        return jsonify({'error': 'No file selected'}), 400
+    files = request.files.getlist('file')
+    if not files or len(files) == 0:
+        return jsonify({"error": "No files selected"}), 400
 
-    # Upload to S3 and get the file URL
-    s3_result = upload_file_to_s3(file, public=True)
-    if not s3_result:
-        return jsonify({"error": "Failed to upload"}), 500
+    image_urls = []
+    new_images = []
 
-    image_url = s3_result  # URL returned from S3 upload
-
-    # Now, save the image URL in the database
     try:
-        new_recipe_image = RecipeImage(
-            image_url=image_url,
-            recipe_id=request.form.get('recipe_id'),  # Assuming you pass recipe ID
-            user_id=current_user.id,
-            uploaded_at=datetime.now(timezone.utc)
-        )
+        for file in files:
+            s3_result = upload_file_to_s3(file)  # Upload each file to S3
+            print("S3 RESULT (type & value) =====>", type(s3_result), s3_result)
 
-        db.session.add(new_recipe_image)
-        db.session.commit()
+            if not s3_result or not isinstance(s3_result, dict) or 'url' not in s3_result:
+                print("UPLOAD ERROR: s3_result is missing 'url' or is not a dictionary")
+                return jsonify({"error": "Failed to upload"}), 500
+
+
+            image_url = s3_result['url']  # Extract the URL string
+            print("IMAGE URL RESULT =====>", image_url)
+
+
+            image_urls.append(image_url)
+
+            # Create a new RecipeImage instance
+            new_image = RecipeImage(
+                image_url=image_url ,
+                recipe_id=request.form.get('recipe_id'),
+                user_id=current_user.id,
+                uploaded_at=datetime.now(timezone.utc)
+            )
+            new_images.append(new_image)  # Collect instances
+
+        # Add all instances to the session
+        try:
+            db.session.add_all(new_images)
+            db.session.commit()
+            print("DB COMMIT SUCCESS")
+        except Exception as e:
+            db.session.rollback()
+            print("DB COMMIT ERROR:", str(e))
+            return jsonify({'error': str(e)}), 500
+
 
         return jsonify({
-            "message": "Recipe image uploaded successfully!",
-            "image_url": image_url,
-            "recipe_image": new_recipe_image.to_dict()
+            "message": "Recipe images uploaded successfully!",
+            "image_urls": image_urls,
+            "recipe_images": [image.to_dict() for image in new_images]
         }), 201
     except Exception as e:
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
-
-    try:
-        # Your file processing logic
-        uploaded_urls = ["https://www.julieseatsandtreats.com/wp-content/uploads/2015/10/Sunshine-Fruit-Salad-Logo.jpg", "https://www.julieseatsandtreats.com/wp-content/uploads/2015/10/Sunshine-Fruit-Salad.jpg"]  # Replace with actual URLs
-        return jsonify({"urls": uploaded_urls}), 200
-    except Exception as e:
-        return jsonify({"error": str(e)}), 400
-
 
 
 @recipe_images_routes.route('/<int:image_id>', methods=['DELETE'])

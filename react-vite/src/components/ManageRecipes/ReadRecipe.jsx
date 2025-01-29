@@ -113,7 +113,7 @@ const RecipeDetails = () => {
                         </>
                       }
                       id="delete-button"
-                      modalComponent={<ImageUpload recipe_id={recipe.id} />}
+                      modalComponent={<ImageUpload recipeId={recipe.id} />}
                     />
                   </div>
                 )}

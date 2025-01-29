@@ -7,7 +7,7 @@ const ImageUpload = ({ recipeId, onImageUpload }) => {
   const [selectedPreview, setSelectedPreview] = useState(null);
 
   const handleFileChange = (e) => {
-    setImages([...e.target.files]);
+    setImages(Array.from(e.target.files));
   };
 
   const handleUpload = async () => {
@@ -15,6 +15,7 @@ const ImageUpload = ({ recipeId, onImageUpload }) => {
 
     const formData = new FormData();
     images.forEach((file) => formData.append("file", file));
+
     formData.append("recipe_id", recipeId); // Pass the recipe ID for association
     setImageLoading(true);
 
@@ -26,11 +27,11 @@ const ImageUpload = ({ recipeId, onImageUpload }) => {
 
       const data = await response.json();
       if (response.ok) {
-        setUploadResults(data.urls);
+        setUploadResults(data.image_urls);
         alert("Files uploaded successfully!");
-        onImageUpload(data.urls); // Pass the image URLs back to parent
+        onImageUpload(data.image_urls);
       } else {
-        alert(data.error || "Upload failed.");
+        console.error(data.error || "Upload failed.");
       }
     } catch (err) {
       console.error(err);
