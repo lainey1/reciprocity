@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
+import { MdAddAPhoto, MdOutlineAddAPhoto } from "react-icons/md";
+import { TbPhotoEdit } from "react-icons/tb";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { TbPhotoEdit } from "react-icons/tb";
-import { MdAddAPhoto, MdOutlineAddAPhoto } from "react-icons/md";
 
 import noImage from "../../../public/no_image_available.png";
 import logo from "../../../public/reciprocity_logo.png";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
+import UpdateRecipeImages from "./UpdateRecipeImages";
 import UploadRecipeImage from "./UploadRecipeImage";
 
 import "./ReadRecipe.css";
@@ -29,6 +30,14 @@ const RecipeDetails = () => {
         }
         const data = await response.json();
         setRecipe(data.recipe);
+
+        // Find the index of the preview image and set it as the initial index
+        const previewImageIndex = data.recipe.images.findIndex(
+          (image) => image.is_preview
+        );
+        if (previewImageIndex !== -1) {
+          setCurrentImageIndex(previewImageIndex);
+        }
       } catch (err) {
         setError(err.message);
       } finally {
@@ -125,7 +134,10 @@ const RecipeDetails = () => {
                           </>
                         }
                         modalComponent={
-                          <UploadRecipeImage recipeId={recipe.id} />
+                          <UpdateRecipeImages
+                            recipeId={recipe.id}
+                            images={recipe.recipe_images}
+                          />
                         }
                       />
                     </div>

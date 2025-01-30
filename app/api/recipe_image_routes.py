@@ -120,12 +120,14 @@ def upload_recipe_image():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
-@recipe_images_routes.route('recipe/<int:recipe_id>/set-preview', methods=['POST'])
+@recipe_images_routes.route('/recipe/<int:recipe_id>/set-preview', methods=['POST'])
 def set_preview_image(recipe_id):
     """Update the preview image for a recipe."""
+
+    print(recipe_id)
     try:
         data = request.get_json()
-        print(data)
+
         new_preview_image_id = data.get('image_id')
 
         if not new_preview_image_id:

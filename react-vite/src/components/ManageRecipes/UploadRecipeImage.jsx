@@ -40,6 +40,7 @@ const UploadRecipeImage = ({ recipeId }) => {
 
   return (
     <form encType="multipart/form-data">
+      <h2>Add Recipe Image</h2>
       <input
         type="file"
         accept="image/*"
