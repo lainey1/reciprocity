@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { MdAddAPhoto, MdOutlineAddAPhoto } from "react-icons/md";
 import { TbPhotoEdit } from "react-icons/tb";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { FaEdit } from "react-icons/fa";
+import { MdExpandMore, MdExpandLess } from "react-icons/md";
 
 import noImage from "../../../public/no_image_available.png";
 import logo from "../../../public/reciprocity_logo.png";
@@ -13,6 +15,7 @@ import UploadRecipeImage from "./UploadRecipeImage";
 import "./ReadRecipe.css";
 
 const RecipeDetails = () => {
+  const navigate = useNavigate();
   const { id } = useParams();
 
   const currentUser = useSelector((state) => state.session?.user);
@@ -20,6 +23,8 @@ const RecipeDetails = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [ingredientsExpanded, setIngredientsExpanded] = useState(false);
+  const [instructionsExpanded, setInstructionsExpanded] = useState(false);
 
   useEffect(() => {
     const fetchRecipe = async () => {
@@ -59,6 +64,9 @@ const RecipeDetails = () => {
       prevIndex === 0 ? recipe.images.length - 1 : prevIndex - 1
     );
   };
+
+  const toggleIngredients = () => setIngredientsExpanded((prev) => !prev);
+  const toggleInstructions = () => setInstructionsExpanded((prev) => !prev);
 
   if (loading) {
     return <img src={logo} alt="Loading..." className="logo-spinner" />;
@@ -112,7 +120,7 @@ const RecipeDetails = () => {
                     </button>
                   </div>
                   {currentUser && currentUser.id == recipe.owner_id && (
-                    <div id="photo-action-buttons">
+                    <div id="recipe-action-buttons">
                       <OpenModalButton
                         buttonText={
                           <>
@@ -140,6 +148,12 @@ const RecipeDetails = () => {
                           />
                         }
                       />
+                      <button
+                        onClick={() => navigate(`/recipes/${recipe.id}/edit`)}
+                      >
+                        <FaEdit />
+                        Edit Recipe
+                      </button>
                     </div>
                   )}
                 </div>
@@ -151,10 +165,10 @@ const RecipeDetails = () => {
                   <p>
                     <em>Created by: {recipe.owner}</em>
                   </p>
+                  <br />
                   <p>
                     <strong>Cuisine:</strong> {recipe.cuisine}
                   </p>
-
                   <p>
                     <strong>Yield:</strong> {recipe.yield_servings} servings
                   </p>
@@ -174,19 +188,38 @@ const RecipeDetails = () => {
                   )}
                   <h3>Description</h3>
                   <p>{recipe.description}</p>
-                  <h3>Ingredients</h3>
-                  <ul>
-                    {recipe.ingredients.map((item, index) => (
-                      <li key={index}>{item.ingredient}</li>
-                    ))}
-                  </ul>
 
-                  <h3>Instructions</h3>
-                  <ol>
-                    {recipe.instructions.map((step, index) => (
-                      <li key={index}>{step.instruction}</li>
-                    ))}
-                  </ol>
+                  <h3 onClick={toggleIngredients} className="collapsible">
+                    Ingredients{" "}
+                    {ingredientsExpanded ? (
+                      <MdExpandLess size={30} />
+                    ) : (
+                      <MdExpandMore size={30} />
+                    )}
+                  </h3>
+                  {ingredientsExpanded && (
+                    <ul>
+                      {recipe.ingredients.map((item, index) => (
+                        <li key={index}>{item.ingredient}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  <h3 onClick={toggleInstructions} className="collapsible">
+                    Instructions{" "}
+                    {instructionsExpanded ? (
+                      <MdExpandLess size={30} />
+                    ) : (
+                      <MdExpandMore size={30} />
+                    )}
+                  </h3>
+                  {instructionsExpanded && (
+                    <ol>
+                      {recipe.instructions.map((step, index) => (
+                        <li key={index}>{step.instruction}</li>
+                      ))}
+                    </ol>
+                  )}
                 </div>
               </div>
             </span>

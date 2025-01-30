@@ -6,15 +6,39 @@ const UpdateRecipeImages = ({ images, recipeId }) => {
     images.find((image) => image.is_preview)?.id || null
   );
   const [submitMessage, setSubmitMessage] = useState(""); // New state for message
-
   const { closeModal } = useModal();
 
   const handleCheckboxChange = (imageId) => {
     setSelectedPreview(imageId);
   };
 
+  const handleDelete = async (imageId) => {
+    setSubmitMessage(""); // Reset the message before submitting
+
+    try {
+      const response = await fetch(`/api/recipe_images/${imageId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete image");
+      }
+
+      setSubmitMessage("Image deleted successfully!");
+    } catch (error) {
+      console.error("Error deleting image", error);
+      setSubmitMessage("An error occurred while deleting the image.");
+    }
+  };
+
   const handleSubmit = async () => {
     setSubmitMessage(""); // Reset the message before submitting
+
+    if (!selectedPreview) {
+      setSubmitMessage("Please select a preview image.");
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -30,18 +54,16 @@ const UpdateRecipeImages = ({ images, recipeId }) => {
         throw new Error("Failed to update preview image");
       }
 
-      // Set success message
       setSubmitMessage("Preview image updated successfully!");
     } catch (error) {
       console.error("Error updating preview image", error);
-      // Set error message
       setSubmitMessage("An error occurred while updating the preview image.");
     }
   };
 
   return (
     <div>
-      <h3>Select a Preview Image</h3>
+      <h3>Select a Preview Image or Delete an Image</h3>
       <form
         onSubmit={(e) => {
           e.preventDefault();
@@ -60,10 +82,17 @@ const UpdateRecipeImages = ({ images, recipeId }) => {
               alt={image.caption || "Recipe Image"}
               style={{ width: 100, marginLeft: 10 }}
             />
+            <button
+              type="button"
+              onClick={() => handleDelete(image.id)}
+              style={{ marginLeft: 10 }}
+            >
+              Delete
+            </button>
           </div>
         ))}
         <button type="submit">Update Preview</button>
-        {/* Conditionally render the message */}
+
         {submitMessage && (
           <div>
             <p>{submitMessage}</p>

@@ -46,7 +46,7 @@
   color: #465775;
   margin-bottom: 10px;
   margin-top: 20px;
-  border-bottom: 1px solid #ccc;
+  /* border-bottom: 1px solid #ccc; */
 }
 
 .list {
@@ -87,16 +87,19 @@
 .placeholder {
   display: flex;
   flex-direction: column;
+
   justify-content: center;
   align-items: center;
   text-align: center;
   width: 375px;
 }
 
-#photo-action-buttons {
-  margin: 25px 0px;
+#recipe-action-buttons {
   display: flex;
-  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 25px 0px;
 }
 
 .add-photo-icon {
@@ -113,12 +116,12 @@ button {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 5px 0;
   padding: 5px 10px;
   font-size: 1em;
   color: white;
   background-color: rgb(70, 87, 117, 0.9);
   border-radius: 5px;
+  cursor: pointer;
 }
 
 button:hover {
@@ -142,10 +145,12 @@ button:focus {
 .prev-button,
 .next-button {
   margin: 5px;
+  padding: 5px;
+  border: none;
   border-radius: 50%;
-  background-color: rgb(244, 166, 166);
-  color: #230903;
-  font-size: 1rem;
+  background-color: transparent;
+  color: #465775;
+  font-size: 2em;
 }
 
 .prev-button:hover,
@@ -153,8 +158,18 @@ button:focus {
   margin: 5px;
   border-radius: 50%;
   background-color: #f4a6a6;
-  color: #230903;
-  font-size: 1rem;
+  cursor: pointer;
+}
+
+.collapsible {
+  cursor: pointer;
+}
+
+.collapsible svg {
+  border-radius: 50%;
+}
+.collapsible svg:hover {
+  background-color: #f4a6a6;
 }
 
 /* Media Queries */
