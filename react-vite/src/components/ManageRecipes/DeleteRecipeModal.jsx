@@ -9,7 +9,7 @@ function DeleteRecipeModal({ recipe_id, recipe_name, owner_id }) {
 
   const handleDelete = () => {
     try {
-      dispatch(thunkDeleteRecipe(recipe_id)); // Ensure this returns a promise
+      dispatch(thunkDeleteRecipe(recipe_id));
       dispatch(fetchCollectionsByOwner(owner_id));
       closeModal();
     } catch (err) {

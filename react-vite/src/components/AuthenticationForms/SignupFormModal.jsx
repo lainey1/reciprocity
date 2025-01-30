@@ -3,8 +3,6 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import { thunkSignup } from "../../redux/session";
 
-import "./AuthForms.css";
-
 function SignupFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");

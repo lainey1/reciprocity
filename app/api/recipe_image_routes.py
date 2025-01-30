@@ -61,30 +61,6 @@ def get_recipe_images(recipe_id):
 
 @recipe_images_routes.route("/new", methods=["POST"])
 @login_required
-def upload_image():
-    form = ImageForm()
-    form["csrf_token"].data = request.cookies.get("csrf_token")
-
-    if form.validate_on_submit():
-        image = form.data["image"]
-        image.filename = get_unique_filename(image.filename)
-        upload = upload_file_to_s3(image)
-
-        if "image_url" not in upload:
-            return jsonify({"errors": [upload]}), 400  # Bad Request
-
-        image_url = upload["image_url"]
-        new_image = RecipeImage(image_url=image_url, user_id=current_user.id)  # Ensure user_id is stored
-        db.session.add(new_image)
-        db.session.commit()
-
-        return jsonify({"message": "Image uploaded successfully", "image_url": image_url}), 201  # Created
-
-    return jsonify({"errors": form.errors}), 400  # Return validation errors
-
-
-@recipe_images_routes.route("/upload", methods=["POST"])
-@login_required
 def upload_recipe_image():
     """
     Endpoint to upload one or multiple recipe images to S3 and save the image URLs in the database.
@@ -144,6 +120,36 @@ def upload_recipe_image():
         db.session.rollback()
         return jsonify({'error': str(e)}), 500
 
+@recipe_images_routes.route('recipe/<int:recipe_id>/set-preview', methods=['POST'])
+def set_preview_image(recipe_id):
+    """Update the preview image for a recipe."""
+    try:
+        data = request.get_json()
+        print(data)
+        new_preview_image_id = data.get('image_id')
+
+        if not new_preview_image_id:
+            return jsonify({'message': 'Image ID is required'}), 400
+
+        # Fetch current preview image
+        current_preview_image = RecipeImage.query.filter_by(recipe_id=recipe_id, is_preview=True).first()
+        if current_preview_image:
+            current_preview_image.is_preview = False
+
+        # Set new preview image
+        new_preview_image = RecipeImage.query.filter_by(id=new_preview_image_id, recipe_id=recipe_id).first()
+        if not new_preview_image:
+            return jsonify({'message': 'Image not found'}), 404
+
+        new_preview_image.is_preview = True
+
+        db.session.commit()
+        return jsonify({'message': 'Preview image updated successfully'})
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        current_app.logger.error(f"Database update error: {str(e)}")
+        return jsonify({'message': 'An error occurred while updating the preview image.'}), 500
 
 @recipe_images_routes.route('/<int:image_id>', methods=['DELETE'])
 @login_required

@@ -63,6 +63,7 @@
 /* Desktop/Table Button */
 #profile-dropdown-button {
   background-color: transparent;
+  color: black;
   border: none;
   font-size: 1.25em;
 }

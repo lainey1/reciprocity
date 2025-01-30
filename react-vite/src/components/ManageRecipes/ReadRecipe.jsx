@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
-import { MdOutlineAddAPhoto } from "react-icons/md";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { TbPhotoEdit } from "react-icons/tb";
+import { MdAddAPhoto, MdOutlineAddAPhoto } from "react-icons/md";
 
 import noImage from "../../../public/no_image_available.png";
 import logo from "../../../public/reciprocity_logo.png";
 import OpenModalButton from "../OpenModalButton/OpenModalButton";
-import ImageUpload from "./ImageUpload";
+import UploadRecipeImage from "./UploadRecipeImage";
+
 import "./ReadRecipe.css";
 
 const RecipeDetails = () => {
@@ -57,13 +59,12 @@ const RecipeDetails = () => {
 
   return (
     <div className="recipe-details-container">
-      <div>
+      <div id="panel">
         {recipe ? (
           <div className="recipe-info">
-            <h2 className="recipe-name">{recipe.name}</h2>
             <span className="detail-main">
               <div className="left-side">
-                <div className="image-slider">
+                <div id="recipe-photo-box">
                   <div className="image-slider">
                     <button
                       className="prev-button"
@@ -85,7 +86,7 @@ const RecipeDetails = () => {
                             <img src={noImage} alt="no image available" />
                           ) : (
                             <>
-                              <MdOutlineAddAPhoto className="add-photo-icon" />
+                              <MdAddAPhoto className="add-photo-icon" />
                               <p className="add-photo-text">Add Photo</p>
                             </>
                           )}
@@ -101,30 +102,43 @@ const RecipeDetails = () => {
                       &#62;
                     </button>
                   </div>
+                  {currentUser && currentUser.id == recipe.owner_id && (
+                    <div id="photo-action-buttons">
+                      <OpenModalButton
+                        buttonText={
+                          <>
+                            <MdOutlineAddAPhoto className="add-edit-photo-icon" />
+                            {"  "}
+                            Add Photo
+                          </>
+                        }
+                        modalComponent={
+                          <UploadRecipeImage recipeId={recipe.id} />
+                        }
+                      />
+                      <OpenModalButton
+                        buttonText={
+                          <>
+                            <TbPhotoEdit className="add-edit-photo-icon" />
+                            {"  "}
+                            Edit Photos
+                          </>
+                        }
+                        modalComponent={
+                          <UploadRecipeImage recipeId={recipe.id} />
+                        }
+                      />
+                    </div>
+                  )}
                 </div>
+              </div>
 
-                {currentUser && currentUser.id == recipe.owner_id && (
-                  <div>
-                    <OpenModalButton
-                      buttonText={
-                        <>
-                          <MdOutlineAddAPhoto className="add-photo-icon" /> Add
-                          Photo
-                        </>
-                      }
-                      id="delete-button"
-                      modalComponent={<ImageUpload recipeId={recipe.id} />}
-                    />
-                  </div>
-                )}
-
-                <div className="recipe-highlights">
+              <div className="right-side">
+                <div className="recipe-details">
+                  <h2 className="recipe-name">{recipe.name}</h2>
                   <p>
                     <em>Created by: {recipe.owner}</em>
                   </p>
-                  <br />
-                  <hr />
-                  <br />
                   <p>
                     <strong>Cuisine:</strong> {recipe.cuisine}
                   </p>
@@ -146,25 +160,22 @@ const RecipeDetails = () => {
                       <strong>Tags:</strong> {recipe.tags}
                     </p>
                   )}
+                  <h3>Description</h3>
+                  <p>{recipe.description}</p>
+                  <h3>Ingredients</h3>
+                  <ul>
+                    {recipe.ingredients.map((item, index) => (
+                      <li key={index}>{item.ingredient}</li>
+                    ))}
+                  </ul>
+
+                  <h3>Instructions</h3>
+                  <ol>
+                    {recipe.instructions.map((step, index) => (
+                      <li key={index}>{step.instruction}</li>
+                    ))}
+                  </ol>
                 </div>
-              </div>
-
-              <div className="right-side">
-                <h3>Description</h3>
-                <p>{recipe.description}</p>
-                <h3>Ingredients</h3>
-                <ul className="ingredients-list">
-                  {recipe.ingredients.map((item, index) => (
-                    <li key={index}>{item.ingredient}</li>
-                  ))}
-                </ul>
-
-                <h3>Instructions</h3>
-                <ol className="instructions-list">
-                  {recipe.instructions.map((step, index) => (
-                    <li key={index}>{step.instruction}</li>
-                  ))}
-                </ol>
               </div>
             </span>
           </div>

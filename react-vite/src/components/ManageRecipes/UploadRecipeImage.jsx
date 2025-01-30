@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { useModal } from "../../context/Modal";
 
-const ImageUpload = ({ recipeId, onImageUpload }) => {
+const UploadRecipeImage = ({ recipeId }) => {
   const [images, setImages] = useState(null);
   const [imageLoading, setImageLoading] = useState(false);
-  const [uploadResults, setUploadResults] = useState([]); // Initialize as empty array
-  const [selectedPreview, setSelectedPreview] = useState(null);
+  const [uploadResults, setUploadResults] = useState([]);
+  const { closeModal } = useModal();
 
   const handleFileChange = (e) => {
     setImages(Array.from(e.target.files));
@@ -20,7 +21,7 @@ const ImageUpload = ({ recipeId, onImageUpload }) => {
     setImageLoading(true);
 
     try {
-      const response = await fetch(`/api/recipe_images/upload`, {
+      const response = await fetch(`/api/recipe_images/new`, {
         method: "POST",
         body: formData,
       });
@@ -28,19 +29,13 @@ const ImageUpload = ({ recipeId, onImageUpload }) => {
       const data = await response.json();
       if (response.ok) {
         setUploadResults(data.image_urls);
-        alert("Files uploaded successfully!");
-        onImageUpload(data.image_urls);
+        setImageLoading(false);
       } else {
         console.error(data.error || "Upload failed.");
       }
     } catch (err) {
       console.error(err);
-      alert("An error occurred while uploading.");
     }
-  };
-
-  const handlePreviewSelection = (url) => {
-    setSelectedPreview(url);
   };
 
   return (
@@ -58,26 +53,29 @@ const ImageUpload = ({ recipeId, onImageUpload }) => {
 
       {uploadResults.length > 0 && (
         <div>
-          <p>File uploaded successfully! Select a preview image:</p>
+          <p>Upload successful!</p>
           {uploadResults.map((url, index) => (
             <div key={index}>
-              <img src={url} alt={`Uploaded Image ${index}`} width="100" />
-              <button onClick={() => handlePreviewSelection(url)}>
-                Set as Preview Image
-              </button>
+              <img
+                src={url}
+                alt={`Uploaded Image ${index}`}
+                width="100"
+                style={{ objectFit: "contain", height: "auto" }}
+              />
             </div>
           ))}
-        </div>
-      )}
-
-      {selectedPreview && (
-        <div>
-          <p>Preview Image:</p>
-          <img src={selectedPreview} alt="Selected Preview Image" width="150" />
+          <button
+            onClick={() => {
+              closeModal();
+              window.location.reload();
+            }}
+          >
+            Close
+          </button>
         </div>
       )}
     </form>
   );
 };
 
-export default ImageUpload;
+export default UploadRecipeImage;
