@@ -84,7 +84,7 @@ function ManageRecipes() {
 
                 <button
                   className="edit-button"
-                  onClick={() => navigate(`/recipes/${recipe.id}/edit`)}
+                  onClick={() => navigate(`/recipes/${recipe.id}/`)}
                 >
                   <FaEdit /> Edit
                 </button>

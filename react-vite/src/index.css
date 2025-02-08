@@ -95,6 +95,12 @@ select {
   box-sizing: border-box;
 }
 
+/* No box shadow for checkboxes */
+input[type="checkbox"]:hover,
+input[type="checkbox"]:focus {
+  box-shadow: none;
+}
+
 input:hover,
 input:focus {
   border-color: #465775;

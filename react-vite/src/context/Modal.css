@@ -22,10 +22,11 @@
 #modal-content {
   position: absolute;
   background-color: white;
-  border-radius: 15px; /* Adjust border-radius to make it more contained */
-  max-width: 400px; /* Define a maximum width for the modal */
+  border-radius: 15px;
+  max-width: 400px;
+  max-height: 90vh;
   width: 100%;
   padding: 25px;
-  box-sizing: border-box; /* Ensures padding is included in the width */
-  overflow: hidden; /* Prevents anything from spilling outside */
+  box-sizing: border-box;
+  overflow-y: auto;
 }

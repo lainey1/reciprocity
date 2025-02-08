@@ -1,23 +1,25 @@
 # app/__init.py__ file
 
 import os
-from flask import Flask, render_template, request, session, redirect, jsonify
+
+from flask import Flask, jsonify, redirect, render_template, request, session
 from flask_cors import CORS
+from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_wtf.csrf import CSRFProtect, generate_csrf
-from flask_login import LoginManager
-from .models import db, User
-from .api.user_routes import user_routes
+
 from .api.auth_routes import auth_routes
-from .api.recipe_routes import recipe_routes
+from .api.collection_image_routes import collection_images_routes
 from .api.collection_routes import collection_routes
 from .api.recipe_image_routes import recipe_images_routes
-from .api.collection_image_routes import collection_images_routes
+from .api.recipe_routes import recipe_routes
 from .api.search_routes import search_routes
-
-from .seeds import seed_commands
+from .api.user_routes import user_routes
 from .config import Config
+from .models import User, db
+from .seeds import seed_commands
 
+# Flask app setup
 app = Flask(__name__, static_folder='../react-vite/dist', static_url_path='/')
 
 # Setup login manager
@@ -42,19 +44,12 @@ app.register_blueprint(recipe_images_routes, url_prefix='/api/recipe_images')
 app.register_blueprint(collection_images_routes, url_prefix='/api/collection_images')
 app.register_blueprint(search_routes, url_prefix='/api/search')
 
-db.init_app(app)
+db.init_app(app) # Connect Flask app with SQLAlchemy db
+Migrate(app, db) # Integrate Alembic with Flask
+CORS(app) # Application Security
 
-Migrate(app, db)
-
-# Application Security
-CORS(app)
-
-
-# Since we are deploying with Docker and Flask,
-# we won't be using a buildpack when we deploy to Heroku.
-# Therefore, we need to make sure that in production any
+# Make sure that in production any
 # request made over http is redirected to https.
-# Well.........
 @app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
@@ -107,7 +102,6 @@ def handle_global_exception(e):
         "message": "An unexpected error occurred.",
         "error": str(e)
     }), 500
-
 
 
 @app.errorhandler(404)

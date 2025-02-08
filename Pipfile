@@ -42,6 +42,7 @@ virtualenv = "==20.28.0"
 werkzeug = "==2.2.2"
 wtforms = "==3.0.1"
 zipp = "==3.17.0"
+boto3 = "*"
 
 [dev-packages]
 

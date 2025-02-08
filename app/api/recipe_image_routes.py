@@ -4,8 +4,10 @@ from flask import Blueprint, current_app, json, jsonify, request
 from flask_login import current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 
-# from app.forms import ImageForm
 from app.models import Recipe, RecipeImage, db
+from app.forms import ImageForm
+from app.api.s3_helpers import upload_file_to_s3, get_unique_filename
+# from app.utils.aws_s3 import upload_file_to_s3
 
 recipe_images_routes = Blueprint('recipe_images', __name__)
 
@@ -57,119 +59,99 @@ def get_recipe_images(recipe_id):
         "recipe_images": [image.to_dict() for image in recipe_images]  # Include image data (with ID)
     }), 200
 
-
-@recipe_images_routes.route('/recipe/<int:recipe_id>', methods=['POST'])
+@recipe_images_routes.route("/new", methods=["POST"])
 @login_required
-def add_recipe_image(recipe_id):
+def upload_recipe_image():
     """
-    Route to add new recipe image.
-    - User must be logged in and owner.
+    Endpoint to upload one or multiple recipe images to S3 and save the image URLs in the database.
     """
-    # Fetch recipe by ID
-    recipe = Recipe.query.get(recipe_id)
+    if 'file' not in request.files:
+        return jsonify({"error": "No file part"}), 400
 
-    if not recipe:
-        return jsonify({'message': 'Recipe not found'}), 404
+    files = request.files.getlist('file')
+    if not files or len(files) == 0:
+        return jsonify({"error": "No files selected"}), 400
+
+    image_urls = []
+    new_images = []
 
     try:
-        payload = request.json
+        for file in files:
+            s3_result = upload_file_to_s3(file)  # Upload each file to S3
+            print("S3 RESULT (type & value) =====>", type(s3_result), s3_result)
 
-        # Check if the current user is the recipe's owner
-        if recipe.owner_id != current_user.id:
-            return jsonify({'message': 'You are not authorized to update this recipe. Please log in as the owner.'})
+            if not s3_result or not isinstance(s3_result, dict) or 'url' not in s3_result:
+                print("UPLOAD ERROR: s3_result is missing 'url' or is not a dictionary")
+                return jsonify({"error": "Failed to upload"}), 500
 
-        # Validate required fields are in the payload
-        required_fields = ["image_url"]
-        missing_fields = [field for field in required_fields if field not in payload or not payload[field]]
-        if missing_fields:
-            return jsonify({
-                "message": "Missing required fields.",
-                "missing_fields": missing_fields
-            }), 400
 
-        # Get current time and use datetime object
-        now = datetime.now(timezone.utc)
+            image_url = s3_result['url']  # Extract the URL string
+            print("IMAGE URL RESULT =====>", image_url)
 
-        new_recipe_image = RecipeImage(
-            image_url=payload.get("image_url"),
-            recipe_id=recipe_id,
-            user_id=current_user.id,
-            owner_username=current_user.username,
-            caption=payload.get("caption"),
-            is_preview=payload.get("is_preview"),
-            uploaded_at=now,  # Pass datetime object directly
-        )
 
-        print(f"Attempting to add recipe image url: {new_recipe_image.image_url} to {recipe.name}")
+            image_urls.append(image_url)
 
+            # Create a new RecipeImage instance
+            new_image = RecipeImage(
+                image_url=image_url ,
+                recipe_id=request.form.get('recipe_id'),
+                user_id=current_user.id,
+                uploaded_at=datetime.now(timezone.utc)
+            )
+            new_images.append(new_image)  # Collect instances
+
+        # Add all instances to the session
         try:
-            db.session.add(new_recipe_image)
+            db.session.add_all(new_images)
             db.session.commit()
-            print(f"Successfully added recipe image with ID: {new_recipe_image.id}")
+            print("DB COMMIT SUCCESS")
         except Exception as e:
-            print(f"Failed to add recipe {new_recipe_image.name}: {str(e)}")
             db.session.rollback()
-            raise
+            print("DB COMMIT ERROR:", str(e))
+            return jsonify({'error': str(e)}), 500
+
 
         return jsonify({
-            "message": "Recipe image created successfully!",
-            "recipe": new_recipe_image.to_dict()
+            "message": "Recipe images uploaded successfully!",
+            "image_urls": image_urls,
+            "recipe_images": [image.to_dict() for image in new_images]
         }), 201
-
-    except Exception as e:
-        db.session.rollback()  # Rollback changes if error occurs
-        print(f"Error in /new route: {e}")  # Log the error
-        return jsonify({
-            "message": "Failed to create recipe image",
-            "error": str(e)
-        }), 500
-
-
-@recipe_images_routes.route('/<int:image_id>', methods=['PUT'])
-@login_required
-def update_recipe_image(image_id):
-    """
-    Update an existing recipe image (only by the recipe owner).
-    """
-    recipe_image = RecipeImage.query.get(image_id)
-
-    # Validate image existence
-    if not recipe_image:
-        return jsonify({'message': 'Recipe image not found'}), 404
-
-    # Validate recipe existence
-    recipe = Recipe.query.get(recipe_image.recipe_id)
-    if not recipe:
-        return jsonify({'message': 'Recipe not found'}), 404
-
-    # Check if the current user is the recipe owner
-    if recipe.owner_id != current_user.id:
-        return jsonify({'message': 'You are not authorized to update this image. Only the recipe owner can perform this action.'}), 403
-
-    try:
-        payload = request.json
-
-        # Update fields if present in the request payload
-        if 'image_url' in payload:
-            recipe_image.image_url = payload['image_url']
-        if 'caption' in payload:
-            recipe_image.caption = payload['caption']
-        if 'is_preview' in payload:
-            recipe_image.is_preview = payload['is_preview']
-
-        # Save updates
-        db.session.commit()
-
-        return jsonify({
-            'message': 'Recipe image updated successfully!',
-            'recipe_image': recipe_image.to_dict()
-        }), 200
-
     except Exception as e:
         db.session.rollback()
-        current_app.logger.error(f"Error updating recipe image: {str(e)}")
-        return jsonify({'message': 'Failed to update recipe image', 'error': str(e)}), 500
+        return jsonify({'error': str(e)}), 500
 
+@recipe_images_routes.route('/recipe/<int:recipe_id>/set-preview', methods=['POST'])
+def set_preview_image(recipe_id):
+    """Update the preview image for a recipe."""
+
+    print(recipe_id)
+    try:
+        data = request.get_json()
+
+        new_preview_image_id = data.get('image_id')
+
+        if not new_preview_image_id:
+            return jsonify({'message': 'Image ID is required'}), 400
+
+        # Fetch current preview image
+        current_preview_image = RecipeImage.query.filter_by(recipe_id=recipe_id, is_preview=True).first()
+        if current_preview_image:
+            current_preview_image.is_preview = False
+
+        # Set new preview image
+        new_preview_image = RecipeImage.query.filter_by(id=new_preview_image_id, recipe_id=recipe_id).first()
+        if not new_preview_image:
+            return jsonify({'message': 'Image not found'}), 404
+
+        new_preview_image.is_preview = True
+
+        db.session.commit()
+        return jsonify({'message': 'Preview image updated successfully'})
+
+    except SQLAlchemyError as e:
+        db.session.rollback()
+        current_app.logger.error(f"Database update error: {str(e)}")
+        return jsonify({'message': 'An error occurred while updating the preview image.'}), 500
 
 @recipe_images_routes.route('/<int:image_id>', methods=['DELETE'])
 @login_required

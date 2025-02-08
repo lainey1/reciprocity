@@ -150,14 +150,6 @@ def seed_recipe_images():
         caption=""
     )
 
-    recipe_image19 = RecipeImage(
-        image_url="https://www.howtocook.recipes/wp-content/uploads/2021/05/How-to-cook-ratatouille-step-3.jpg",
-        is_preview=False,
-        recipe_id=1,
-        user_id=1, # Remy
-        caption=""
-    )
-
     recipe_image20 = RecipeImage(
         image_url="https://www.howtocook.recipes/wp-content/uploads/2021/05/Is-Ratatouille-supposed-to-be-mushy-step-6.jpg",
         is_preview=False,
@@ -316,7 +308,6 @@ def seed_recipe_images():
     db.session.add(recipe_image16)
     db.session.add(recipe_image17)
     db.session.add(recipe_image18)
-    db.session.add(recipe_image19)
     db.session.add(recipe_image20)
     db.session.add(recipe_image21)
     db.session.add(recipe_image22)

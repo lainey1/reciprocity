@@ -76,6 +76,7 @@ export const thunkFetchRecipeById = (id) => async (dispatch) => {
     const data = await response.json();
     dispatch(setRecipe(data.recipe));
     dispatch(setLoading(false));
+    return data.recipe;
   } catch (error) {
     dispatch(setErrors(error.message));
     dispatch(setLoading(false));
@@ -190,7 +191,8 @@ function recipesReducer(state = initialState, { type, payload }) {
     case SET_RECIPE:
       return {
         ...state,
-        recipes: { ...state.recipes, [payload.id]: payload },
+        // recipes: { ...state.recipes, [payload.id]: payload },
+        recipe: payload,
         error: null,
       };
 

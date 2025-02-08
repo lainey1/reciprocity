@@ -13,8 +13,9 @@ const UpdateRecipe = () => {
   const { recipe_id } = useParams();
 
   // Selector
-  const recipe = useSelector((state) => state.recipes?.recipes[recipe_id]);
+  const recipe = useSelector((state) => state.recipes?.recipe);
   // const userId = useSelector((state) => state.session?.user);
+  console.log(recipe);
 
   // set up errors list
   const [errors, setErrors] = useState({});
